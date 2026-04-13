@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beven & Anju Wedding Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Georgia', serif; 
+            background: linear-gradient(135deg, #fef3c7 0%, #fafaf9 50%, #fce7f3 100%);
+            min-height: 100vh;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #fbbf24;
+        }
+        .header-content {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 1rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 1.875rem;
+            color: #78350f;
+            font-family: Georgia, serif;
+        }
+        .header p {
+            color: #b45309;
+            font-size: 0.875rem;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-family: Georgia, serif;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+        .tab-btn.active {
+            background: linear-gradient(to right, #fbbf24, #fb7185);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .tab-btn.inactive {
+            background: white;
+            color: #78350f;
+            border: 1px solid #fde68a;
+        }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+        .content {
+            max-width: 56rem;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        h2 {
+            font-size: 1.875rem;
+            color: #78350f;
+            margin-bottom: 1.5rem;
+            font-family: Georgia, serif;
+        }
+        .event-card {
+            background: white;
+            border-radius: 0.75rem;
+            border: 2px solid #fde68a;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .event-time {
+            font-family: Georgia, serif;
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #78350f;
+        }
+        .event-title {
+            font-family: Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #78350f;
+            margin: 0.5rem 0;
+        }
+        .event-location {
+            color: #b45309;
+            font-size: 0.875rem;
+        }
+        .event-details {
+            color: #a16207;
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+        .ceremony-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fce7f3 100%);
+            border-radius: 0.75rem;
+            border: 2px solid #fde68a;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .pdf-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #fbbf24, #fb7185);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-family: Georgia, serif;
+            font-size: 1.125rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: box-shadow 0.3s;
+            margin-bottom: 1rem;
+        }
+        .pdf-btn:hover {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .seating-search {
+            background: white;
+            border-radius: 0.75rem;
+            border: 2px solid #fde68a;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .seating-search input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #fde68a;
+            border-radius: 0.5rem;
+            font-family: Georgia, serif;
+            font-size: 1rem;
+        }
+        .table-btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            text-align: left;
+            background: linear-gradient(to right, #fef3c7, #fce7f3);
+            border: 2px solid #fde68a;
+            border-radius: 0.75rem;
+            font-family: Georgia, serif;
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #78350f;
+            cursor: pointer;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .table-btn:hover {
+            background: linear-gradient(to right, #fed7aa, #fbcfe8);
+        }
+        .table-guests {
+            background: white;
+            border: 2px solid #fde68a;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            color: #b45309;
+        }
+        .table-guests p {
+            margin-bottom: 0.5rem;
+        }
+        .no-results {
+            background: #fef3c7;
+            border: 2px solid #fde68a;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            color: #b45309;
+        }
+        .info-box {
+            background: white;
+            border-radius: 0.75rem;
+            border: 2px solid #fde68a;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .info-box p {
+            color: #b45309;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>💕 Beven & Anju</h1>
+            <p>Saturday, April 18, 2026</p>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(event, 'schedule')">📅 Schedule</button>
+            <button class="tab-btn inactive" onclick="switchTab(event, 'ceremony')">💒 Ceremony</button>
+            <button class="tab-btn inactive" onclick="switchTab(event, 'seating')">🪑 Seating</button>
+            <button class="tab-btn inactive" onclick="switchTab(event, 'photos')">📸 Photos</button>
+            <button class="tab-btn inactive" onclick="switchTab(event, 'tips')">💬 Tips</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- SCHEDULE TAB -->
+        <div id="schedule" class="tab-content active">
+            <h2>📅 Wedding Day Schedule</h2>
+            <div class="event-card">
+                <div class="event-time">1:30 PM</div>
+                <div class="event-title">💒 Ceremony Start</div>
+                <div class="event-location">St. Francis of Assisi Catholic Church, Frisco TX</div>
+                <div class="event-details">Please arrive 20-30 minutes early</div>
+            </div>
+            <div class="event-card">
+                <div class="event-title">🎵 Processional</div>
+            </div>
+            <div class="event-card">
+                <div class="event-title">👰 Bride's Entrance</div>
+            </div>
+            <div class="event-card">
+                <div class="event-title">💍 Wedding Vows & Ring Exchange</div>
+            </div>
+            <div class="event-card">
+                <div class="event-title">👑 Blessing of Crowns</div>
+            </div>
+            <div class="event-card">
+                <div class="event-title">🌺 Garland Exchange & Chenda</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">3:30 PM</div>
+                <div class="event-title">✨ Ceremony Ends</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">5:00 PM</div>
+                <div class="event-title">🍾 Cocktail Hour Opens</div>
+                <div class="event-location">Marriott Hotel, Plano TX</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">6:00 PM</div>
+                <div class="event-title">🍷 Bar Opens</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">7:15 PM</div>
+                <div class="event-title">💃 Reception Grand Entrance</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">8:00 PM</div>
+                <div class="event-title">🍽️ Dinner Served</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">10:00 PM</div>
+                <div class="event-title">🎉 Dance Floor Opens</div>
+            </div>
+            <div class="event-card">
+                <div class="event-time">12:00 AM</div>
+                <div class="event-title">🌙 Reception Ends</div>
+            </div>
+        </div>
+
+        <!-- CEREMONY TAB -->
+        <div id="ceremony" class="tab-content">
+            <h2>💒 Ceremony Service Book</h2>
+            <div class="ceremony-box">
+                <p style="font-size: 1.25rem; color: #78350f; margin-bottom: 1.5rem;">📖 Complete Ceremony Service Book</p>
+                <a href="BryLin_Wedding_Service_Book.pdf" download class="pdf-btn">📄 Download Service Book (PDF)</a>
+            </div>
+            <div class="info-box">
+                <p><strong>🎵 Order of Ceremony</strong> - Complete processional through recessional</p>
+                <p><strong>🙏 Prayers & Readings</strong> - Full liturgical texts</p>
+                <p><strong>👑 Ceremony Meanings</strong> - Syro-Malankara traditions explained</p>
+            </div>
+        </div>
+
+        <!-- SEATING TAB -->
+        <div id="seating" class="tab-content">
+            <h2>🪑 Reception Seating Chart</h2>
+            <div class="seating-search">
+                <input type="text" id="searchInput" placeholder="Search for a guest name..." oninput="filterSeating()">
+            </div>
+            <div id="seatingResults"></div>
+        </div>
+
+        <!-- PHOTOS TAB -->
+        <div id="photos" class="tab-content">
+            <h2>📸 Upload Photos & Memories</h2>
+            <div class="info-box">
+                <p>📸 Share your favorite moments from the wedding!</p>
+                <p>The photo gallery will be live during the reception. All guests' photos will appear here in real-time! 💕</p>
+            </div>
+        </div>
+
+        <!-- TIPS TAB -->
+        <div id="tips" class="tab-content">
+            <h2>💬 Marriage Tips for Beven & Anju</h2>
+            <div class="info-box">
+                <p>Share your wisdom for a happy marriage! Enter your name and your favorite marriage tip below.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const seatingData = [
+            { table: 1, guests: ['Bryan Chempanal', 'Allen John', 'Sara Relton', 'Noel Mathews', 'Akhil Abraham', 'Jim Reeves', 'Ashish Mathai', 'Joshua George', 'Bindu George', 'Olivia George', 'Justin George', 'Michelle George', 'Luka George', 'Liam George', 'Terry Sajan', 'Caren Punnoose', 'Angel Abraham', 'Noble Mathew', 'Jordan Sam'] },
+            { table: 2, guests: ['Abin Alex', 'Leema Kalayil', 'Mevin Chacko', 'Ashley Mathew', 'Ashna Manthuruthil', 'Rino Muringothu', 'Vini Kuzhippil', 'Jibin Kuzhippil', 'Regina Mathew', 'Jason Luke', 'Mikki Mendoza', 'Miguel Mendoza', 'Nibiya Abraham', 'Roshan Thomas', 'Sneha Daniel', 'Britney Nadakuzhackal', 'Deepa Surendran', 'Rachel Vulk', 'Raichel Franklin', 'Marissa Varghese'] },
+            { table: 3, guests: ['Viji Chempanal', 'Elizabeth Chempanal', 'Jose George', 'Letha George', 'Lally Boban', 'Boban Oonunny', 'Mariamma Sam', 'Oomen Sam', 'Giby Vinod', 'Daniel Rajagiriyal', 'Chinnamma Rajagiriyal'] },
+            { table: 4, guests: ['Jithin Johnson', 'Eliza Johnson', 'Shobin Mathew', 'Sara Mathew', 'Madi Saunders', 'Jalen Saunders', 'Cole Cassandra', 'Cassandra Cole', 'Josh Sara', 'Sarah Granado'] },
+            { table: 5, guests: ['Laly Joyes', 'Joyes George', 'Dona Jose', 'Lijin Joyes', 'Chacko Jacob', 'Leelamma Jacob', 'Kavya Vinod', 'Shinto George', 'Kevin Mathews', 'Donna Mathews'] },
+            { table: 6, guests: ['K.A Jacob', 'Susy Jacob', 'Sanjay Kuriakose', 'Shiney Kuriakose', 'Kurian Kuriakose', 'Aleyamma Kuriakose', 'Philip Kurian', 'Mariamma Philip', 'K.C Thomas', 'Ammini Thomas'] },
+            { table: 7, guests: ['Bincent Jacob', 'Nisha Jacob', 'Bincy Joy', 'Tony Joy', 'Blessy Mathew', 'Vinai Mathew', 'Mia Mathew', 'Swadeep Rachoor', 'Naveetha Reddy', 'Arjun Reddy'] },
+            { table: 8, guests: ['Ani Malikarukayil', 'Gigi Jacob', 'Muthu Malikarukayil', 'Jinu George', 'James Padiyara', 'Jessy Padiyara', 'Jacob Kochumaliyil', 'Molly Jacob', 'Korah Kuriakose', 'Betty Korah'] },
+            { table: 9, guests: ['Kuriakose Cherian', 'Elsa Kuriakose', 'Shanta Devasia', 'Devasia Thankachen', 'Molly James', 'James Kavalam', 'Sabu Markose'] },
+            { table: 10, guests: ['Shiju Abraham', 'Elcy Abraham', 'Lalu Thomas', 'Ancy Thomas', 'Rishma Mathew', 'Mathew Zachariah', 'Sherley Vulk', 'Tels Abraham', 'Saumya Abraham', 'Rittu Punnoose', 'Subiya Punnoose'] },
+            { table: 11, guests: ['James Mathew', 'Grace Mathew', 'Roy Mathew', 'Bini Mathew', 'Roy George', 'Leena Roy', 'AM Georgekutty', 'Molly Georgekutty', 'AV Philipose', 'Jainamma Philipose'] },
+            { table: 12, guests: ['Manjesh Chacko', 'Stephy Chacko', 'Shinu Punnoose', 'Romy Punnoose', 'Jerry Padiyara', 'Vinaya Padiyara', 'Vinil Abraham', 'Joice Abraham', 'Vinod Chacko', 'Christy Chacko'] },
+            { table: 13, guests: ['Tina Abraham', 'Ance Aickareth', 'Tim Aickareth', 'Bejoy Devasia', 'Asha Devasia', 'Vinu Kavalam', 'Nisha Kavalam', 'Nancy Rajan', 'Roby Rajan', 'Ebby Rajagiriyal', 'Lina Rajagiriyal'] },
+            { table: 14, guests: ['Samuel Varghese', 'Saramma Varghese', 'Jose James', 'Sherly James', 'Jancy Wilson', 'Wilson Wilson', 'Renni Abraham', 'Nisha Abraham', 'James Uthuppan', 'Biya James'] },
+            { table: 15, guests: ['Shebin Philip', 'Soumya Shebin', 'Daniel Shebin', 'Angel Shebin', 'David Shebin', 'Olivia Thomas', 'Christian Thomas', 'Alyssa Thomas', 'Suja Raju', 'Raju Raju'] },
+            { table: 16, guests: ['Shaji Parathaodathil', 'Raymol Parathaodathil', 'Fr. Saju Joseph', 'Fr. Abraham Thomas', 'Rv. Fr. Abey Abraham', 'Jubil Abraham', 'Rv. Fr. Joseph Kurian', 'Annie Kurian', 'Chacko Itty', 'Annamma Itty'] },
+            { table: 17, guests: ['Vijay Kuruvilla', 'Solly Kuruvilla', 'Ivana George', 'Jovana George', 'Kemuel George', 'Reagan Phillip', 'Millie Mathew', 'Nathan Philip', 'Daniel Philip', 'Mia Philip'] },
+            { table: 18, guests: ['Saji Alex', 'Lissy Alex', 'Alexander Kuriakose', 'Mariamma Kuriakose', 'Abraham Scaria', 'Molly Abraham', 'Moncy Pulichammootil', 'Jessy Abraham', 'Joshi Joseph', 'Jessy Joshi', 'Asin Joshi'] },
+            { table: 19, guests: ['Steven Jacob', 'Simon Jacob', 'Tim Sam', 'Rachel Sam', 'Betsy Mangaleth', 'Jacob Mangaleth', 'Nicole Sam', 'Titus Sam', 'Jason George', 'Benji Boban', 'Betsy Boban'] },
+            { table: 20, guests: ['Alex Kuriakose', 'Chithra Kuriakose', 'Aaron Kuriakose', 'Claire Kuriakose', 'Azalea Kuriakose', 'Emily Kuriakose', 'Preji Kuriakose', 'Julia Kuriakose', 'Lily Kuriakose', 'Biju Thomas', 'Jilu Thomas'] },
+            { table: 21, guests: ['Josiah Boban', 'Jeremiah Boban', 'Leah Boban', 'Henry Sam', 'Elijah Jacob', 'Jonah Jacob', 'Ava Jacob', 'Anisha Saju', 'Sunny Johnson', 'Betty Boban', 'Ashley Sam'] },
+            { table: 22, guests: ['Thomas George', 'Betty Thomas', 'Benny Punnoose', 'Reni Punnoose', 'Bency Punnoose', 'Rinu Punnoose', 'Saji Abraham', 'Lissy Abraham', 'Monachen Kunnirickal', 'Annie Thomas'] },
+            { table: 23, guests: ['Chris Jose', 'Joanna Gnanayutham', 'Troy Philip', 'Basil Regi', 'Joel Sabu', 'Jasdev Singh', 'Joshua Skariah', 'Roshan Varughese', 'Isabel Ajit', 'Jonathan Mathai'] },
+            { table: 24, guests: ['Benny Thomas', 'Anu Thomas', 'Luke Varghese', 'Anie Varghese', 'Alex Jacob', 'Ruth Jacob', 'Suresh Kannantanathu', 'Sisy Thomas'] },
+            { table: 25, guests: ['Cyril Jose', 'Sybil Jose', 'Mindy Joseph', 'Jason Joseph', 'Josh Mathew', 'Jenny Mathew', 'Justin Mathew', 'Mereena Mathew', 'Denny Philip', 'Reshma Philip', 'Jason Mathew'] },
+            { table: 26, guests: ['Aju Mathew', 'Priya Aju', 'Tony Abraham', 'Deepa Abraham', 'Thommachan Kallamannil', 'Susan Thomas', 'Rittu Scaria', 'Minna Scaria', 'Ginu Uthuppan', 'Anju Zachariah'] },
+            { table: 27, guests: ['Shawn Kuriakose', 'Maya Kuriakose', 'Roman Kuriakose', 'Sheba Razi', 'Ramin Razi', 'Cyrus Razi', 'Lilly Razi', 'Penelope Razi', 'Glenn George'] },
+            { table: 28, guests: ['Ajo Vazhackal', 'Tinu Vazhackal', 'Iza Vazhackal', 'Eileen Vazhackal', 'Robin Kochethu', 'Renjini Kochethu', 'Shelly Shaji', 'Nimisha Shelly', 'Jibin James', 'Sherin James'] },
+            { table: 29, guests: ['Sheryl Cleveland', 'Hannah Varghese', 'Steven Mathew', 'Emily Mathew', 'Jerin Jacob', 'Brian Kurien', 'Kenny Thomas', 'Chris Thomas', 'Akhil Mathews'] },
+            { table: 30, guests: ['Shibu John', 'Valsamma John', 'Saji Kattuvelil', 'Omana Kattuvelil', 'Shaji Vazhackal', 'Sherly Vazhackal', 'Christina John', 'Thomas Mathew', 'Shannon Valimattathil', 'Jerrin Valimattathil', 'Priya Kattuvelil'] },
+            { table: 31, guests: ['James George', 'Stanley George', 'Smitha Stanley', 'Thomas George', 'Daisy Thomas', 'Jacob Varghese', 'Kunjumol Jacob', 'Varghese KV', 'Sheela Chacko'] },
+            { table: 32, guests: ['Tiby Punnoose', 'Meena Punnoose', 'Beena Mathews', 'Leena Roy Piravom', 'Sabu Abraham', 'Achammakutty Abraham', 'Sajan Abraham', 'Dolly Abraham'] },
+            { table: 33, guests: ['Jojy Koshy', 'Christina Koshy', 'Ligy Skariah', 'Soji Skariah', 'Ricardo Mendiola', 'Pattie Mandiola', 'Abey Thomas', 'Debby Thomas', 'Sean Hozumi', 'Jaclyn Hozumi', 'Bradley Thomas'] },
+            { table: 34, guests: ['Siby Abraham', 'Molamma Abraham', 'Sabu Adichira', 'Sheena Joseph', 'Kurian Benjamin', 'Laly Benjamin', 'Raju Abraham', 'Valsamma Abraham', 'Jose Thomas', 'Alice Thomas'] },
+            { table: 35, guests: ['Oomen George', 'Mariama George', 'Thomas Oonnunny', 'Susan Thomas', 'Titus Ooonnuny', 'Mathew Oonnuny', 'Joseph Varghese', 'Joy Koshy', 'Molly Koshy', 'Roy Thomas', 'Jessy Thomas'] },
+            { table: 36, guests: ['Steve Abraham', 'Lino Kalayil', 'Tommy Philip', 'Isabella Abraham', 'Jason Joy', 'Ashley Kurian', 'Jerrin Jacob', 'Minnu Jacob', 'Justin Abraham', 'Niki Thomas', 'Milen Daison'] },
+            { table: 37, guests: ['Aaron Chacko', 'Joel Abraham', 'Joshua Joseph', 'Kichu Mathew', 'Shanjez Reji', 'Abel Abraham', 'Bismi Kurien', 'Daniel Rajan', 'Sarah Rajan', 'Joshua Rajagiriyal', 'Abigail Rajagiriyal'] },
+            { table: 38, guests: ['Adam Punnoose', 'Minly Lam', 'Shilpa Thomas', 'Cassey John', 'Shalu Kattuvelil', 'Tobin Mathew', 'Jaimie Joy', 'Stephen Thomas', 'Christina Abraham', 'Andrew Abraham', 'Nathan Punnoose'] },
+            { table: 39, guests: ['Ashley Richards', 'Justin Richards', 'Holly Martin', 'Lee Martin', 'Heather Shapan', 'Marty Shapan', 'Louis Smith', 'Karina Smith', 'Cynthia Salinas'] },
+            { table: 40, guests: ['Achsah Thomas', 'Aliya Thomas', 'Hanoch Thomas', 'Silu Joseph', 'Sify Joseph', 'Sino Joseph', 'Danny Moncy', 'Alyssa Moncy', 'Janice Joy', 'Aleena Jacob', 'Aggie Punnoose'] },
+            { table: 41, guests: ['Lauren Morrow', 'Nathan G', 'Erica Glover', 'Cydne Glover', 'Sejal Bhandari', 'Kristen Crites', 'Wade Rhodes', 'Hannah Rhodes', 'Neebs Vincent', 'James Mwgani', 'Brittany Mwgani'] },
+            { table: 42, guests: ['Siby Maliyil', 'Leenu Maliyil', 'Heby Maliyil', 'Sinu Maliyil', 'Biju Maliyil', 'Reenu Maliyil', 'Vintu Maliyil', 'Soji Maliyil', 'Binu Maliyil', 'Betsy Maliyil'] },
+            { table: 43, guests: ['Janet Hoffman', 'J Hoffman', 'Thomas Huck', 'Lexi Huck', 'Chasiti Barnett', 'Roberta Gallagher', 'Melva Bazan', 'Jamela Norwood', 'Chelsy Oguinn', 'Raqel'] },
+            { table: 44, guests: ['Aby Mangalathu', 'Suni Mangalathu', 'Biju Kurian', 'Beena Philip', 'Rony Thomas', 'Shyla Rony', 'Sabu Kudakasaril', 'Sally Kudakasaril', 'Daison Alummootil', 'Bindu Daison'] },
+            { table: 45, guests: ['Varghese Mathew', 'Jolly Mathew', 'Sam Mathai', 'Kochumol Mathai', 'Varghese George', 'Annamma Zachariah', 'Suma Philip', 'Shibu Philip', 'George Varghese', 'Subi Philip'] },
+            { table: 46, guests: ['Nimmy Samuel', 'Jobin Samuel', 'Stephie Rajan', 'Chris Rajan', 'Bevin Chacko', 'Alka Chacko', 'Arlen Chacko', 'Danielle Bahrenburg', 'Nathan Bahrenburg', 'Neha Maliyil', 'Megha Maliyil'] },
+            { table: 47, guests: ['Jacob Chacko', 'Annie Jacob', 'Francis George', 'Jaya George', 'Joseph Kizhakethil', 'Sheela Joseph', 'George Thomas', 'Sally Thomas', 'Prince Samuel', 'Mini Prince', 'Annamma George'] },
+            { table: 48, guests: ['Winnie Saji', 'Kichu Kuriakose', 'Joe Baiju', 'Tressa Joseph', 'Maria Joseph', 'Amy Saji', 'Minnu Saji', 'Mini Mukkat', 'Kunjamma Vazhackal', 'Daisy Babu', 'Kiju Manthuruthil'] },
+            { table: 49, guests: ['Roy Chacko', 'Deepa Chacko', 'Joby Abraham', 'Jincy Abraham', 'Ajith Joseph', 'Ajo Joseph', 'Anu Joseph', 'Alfred Varghese', 'Anju Alfred', 'Roy Varghese'] },
+            { table: 50, guests: ['Tomcy Jacob', 'Maria Tom', 'Blesson Abraham', 'Nibin Abraham', 'Chinju Philip', 'Libin Biju', 'Kevin Kuttans Abraham', 'Sheryl Paul', 'Katherine Roy', 'Elma Andrews', 'Shane Thomas'] },
+            { table: 51, guests: ['Anup Varghese', 'Juby Kurian', 'Reji Varghese', 'Chacko Varkey', 'Reena Varkey', 'Jose Oomen', 'Soney Jose', 'Prasad Thomas', 'Sheeba Kuruvila', 'Thomas George'] },
+            { table: 52, guests: ['Kevin Punnoose', 'Eleesa Jacob', 'Arjun Mathew', 'Jerin Mathew', 'David Alummoottil', 'Jane Joy', 'Christine Jacob', 'Jasmine Jacob', 'Susan Ayala', 'Sergio Ayala', 'Elias Markose'] },
+            { table: 53, guests: ['Abraham Abraham', 'Suja Abraham', 'Biji Kurien', 'Shubha Kurien', 'Abraham Mathew', 'Moni Abraham', 'Jacob Joseph', 'Mini Joseph', 'Philip Chacko', 'Suma Chacko'] },
+            { table: 54, guests: ['Shawn Thomas', 'Becky Thomas', 'Noel Abraham', 'Leah Abraham', 'Angela Thomas', 'Lance Thomas', 'Allen Luke', 'Irene Markose', 'Irin Luke', 'Pramod Daniel'] },
+        ];
+
+        function switchTab(e, tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('inactive');
+            });
+            document.getElementById(tab).classList.add('active');
+            e.target.classList.add('active');
+            e.target.classList.remove('inactive');
+        }
+
+        function filterSeating() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('seatingResults');
+            
+            if (!query) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            const matches = seatingData.filter(table =>
+                table.guests.some(guest => guest.toLowerCase().includes(query))
+            );
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-results">No guests found with that name.</div>';
+                return;
+            }
+
+            let html = '';
+            matches.forEach(table => {
+                html += `<button class="table-btn" onclick="toggleGuests(${table.table}, event)">🪑 Table ${table.table}<span>${document.getElementById('guests-' + table.table) ? '▼' : '▶'}</span></button>`;
+                html += `<div id="guests-${table.table}" class="table-guests" style="display:none;">`;
+                table.guests.forEach(guest => {
+                    html += `<p>${guest}</p>`;
+                });
+                html += `</div>`;
+            });
+            resultsDiv.innerHTML = html;
+        }
+
+        function toggleGuests(tableNum, e) {
+            const el = document.getElementById(`guests-${tableNum}`);
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
