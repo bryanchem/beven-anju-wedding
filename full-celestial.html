@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beven & Anju · Celestial</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ── THEME TOKENS ── */
+:root{
+  --gold:#D4AF37;--gold-lt:#F0D060;--gold-pale:#FAF0C0;--gold-dk:#A88820;
+  --black:#0C0C0A;--black-mid:#141410;--black-warm:#1C1C18;
+  --text:#F0E8D0;--text-muted:rgba(212,175,55,0.5);
+  --border:rgba(212,175,55,0.2);--border-bright:rgba(212,175,55,0.45);
+  --card-bg:#141410;--card-border:rgba(212,175,55,0.18);
+}
+
+body{font-family:'Cormorant Garamond',Georgia,serif;background:var(--black);color:var(--text);min-height:100vh}
+
+/* ══════════════════════════════════════
+   SPLASH
+══════════════════════════════════════ */
+#splash{position:fixed;inset:0;z-index:9999;background:var(--black);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+
+/* Sunburst */
+.sunburst{position:absolute;top:50%;left:50%;width:min(95vw,900px);height:min(95vw,900px);transform:translate(-50%,-50%);animation:sbSpin 80s linear infinite;pointer-events:none}
+@keyframes sbSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* Borders */
+.s-b1{position:absolute;inset:clamp(18px,4vw,45px);border:1.5px solid var(--border-bright);animation:fadeIn 1.4s ease .2s both;pointer-events:none}
+.s-b2{position:absolute;inset:clamp(28px,6vw,65px);border:1px solid var(--border);animation:fadeIn 1.4s ease .5s both;pointer-events:none}
+.s-b3{position:absolute;inset:clamp(34px,7.5vw,80px);border:1px solid rgba(212,175,55,0.07);animation:fadeIn 1.4s ease .8s both;pointer-events:none}
+
+/* Corner deco */
+.s-corner{position:absolute;width:clamp(50px,10vw,90px);height:clamp(50px,10vw,90px);pointer-events:none;animation:fadeIn 1.2s ease .8s both}
+.s-corner.tl{top:clamp(12px,3vw,32px);left:clamp(12px,3vw,32px)}
+.s-corner.tr{top:clamp(12px,3vw,32px);right:clamp(12px,3vw,32px);transform:scaleX(-1)}
+.s-corner.bl{bottom:clamp(12px,3vw,32px);left:clamp(12px,3vw,32px);transform:scaleY(-1)}
+.s-corner.br{bottom:clamp(12px,3vw,32px);right:clamp(12px,3vw,32px);transform:scale(-1)}
+
+/* Geo frame overlay */
+.s-geo{position:absolute;inset:0;pointer-events:none;animation:fadeIn 1.5s ease .4s both}
+
+/* Center */
+.s-center{position:relative;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center;padding:0 clamp(2rem,8vw,6rem)}
+.s-eyebrow{font-family:'Cinzel',serif;font-size:clamp(.5rem,1.1vw,.62rem);letter-spacing:.55em;color:var(--text-muted);text-transform:uppercase;animation:riseIn .8s ease .5s both;margin-bottom:1.5rem}
+.s-top-geo{width:clamp(120px,30vw,240px);margin:0 auto 1.4rem;animation:riseIn .8s ease .7s both}
+.s-names{font-family:'Cinzel',serif;font-size:clamp(2.2rem,8vw,5.5rem);font-weight:600;color:var(--text);line-height:1;letter-spacing:.08em;animation:grandReveal 1.4s cubic-bezier(.16,1,.3,1) .85s both;text-shadow:0 0 50px rgba(212,175,55,.25)}
+.s-names .n1{display:block}
+.s-names .n2{display:block}
+.s-amp{font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.8vw,2rem);color:rgba(212,175,55,.5);font-style:italic;display:block;margin:.08em 0;animation:riseIn .8s ease 1.4s both;letter-spacing:.1em}
+.s-geo-div{width:clamp(100px,25vw,200px);margin:1.6rem auto;animation:fadeIn .8s ease 1.6s both}
+.s-date{font-family:'Cinzel',serif;font-size:clamp(.58rem,1.3vw,.72rem);color:rgba(232,222,173,.45);letter-spacing:.38em;text-transform:uppercase;animation:riseIn .8s ease 1.7s both}
+.s-loc{font-family:'Cormorant Garamond',serif;font-size:clamp(.8rem,1.7vw,.95rem);color:var(--text-muted);font-style:italic;animation:riseIn .8s ease 1.9s both;margin-top:.4rem}
+.s-hash{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:rgba(232,222,173,.2);font-style:italic;animation:riseIn .8s ease 2.1s both;margin-top:1.5rem}
+.s-cta{animation:riseIn .8s ease 2.5s both;margin-top:2.8rem}
+.s-btn{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--black);background:linear-gradient(135deg,var(--gold-lt) 0%,var(--gold) 35%,var(--gold-lt) 65%,var(--gold-dk) 100%);background-size:300%;border:none;padding:.9rem 2.8rem;cursor:pointer;transition:all .3s;animation:goldShimmer 4s ease 3s infinite;clip-path:polygon(10px 0%,calc(100% - 10px) 0%,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0% calc(100% - 10px),0% 10px)}
+.s-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(212,175,55,.4)}
+.s-skip{position:absolute;bottom:2rem;right:2rem;font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,175,55,.18);border:none;background:none;cursor:pointer;transition:color .3s}
+.s-skip:hover{color:rgba(212,175,55,.45)}
+
+/* ══════════════════════════════════════
+   APP — HEADER & TABS
+══════════════════════════════════════ */
+#app{display:none;min-height:100vh;background:var(--black)}
+
+.app-header{background:linear-gradient(135deg,var(--black-warm) 0%,var(--black-mid) 100%);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:40;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.header-inner{max-width:56rem;margin:0 auto;padding:1rem;text-align:center}
+.header-title{font-family:'Cinzel',serif;font-size:clamp(1rem,4vw,1.4rem);color:var(--gold-lt);letter-spacing:.12em;text-shadow:0 0 20px rgba(212,175,55,.3)}
+.header-subtitle{font-family:'Cormorant Garamond',serif;font-size:.88rem;color:var(--text-muted);letter-spacing:.15em;font-style:italic}
+.tabs{display:flex;justify-content:center;gap:.4rem;padding:.6rem .8rem;overflow-x:auto;flex-wrap:wrap;background:rgba(0,0,0,.3);border-top:1px solid var(--border)}
+.tab-btn{padding:.42rem .9rem;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.08em;border:none;cursor:pointer;transition:all .3s;white-space:nowrap;text-transform:uppercase}
+.tab-btn.active{background:var(--gold);color:var(--black);font-weight:600;clip-path:polygon(4px 0%,calc(100% - 4px) 0%,100% 4px,100% calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,0% calc(100% - 4px),0% 4px)}
+.tab-btn.inactive{background:rgba(212,175,55,.08);color:var(--gold-lt);border:1px solid var(--border)}
+.tab-btn:hover{transform:translateY(-1px)}
+
+/* ══════════════════════════════════════
+   APP — CONTENT
+══════════════════════════════════════ */
+.content{max-width:56rem;margin:0 auto;padding:1.5rem 1rem}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* Cards */
+.card{background:var(--card-bg);border:1px solid var(--card-border);padding:1.4rem;margin-bottom:.9rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.card h3{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem}
+.card-time{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold-lt);letter-spacing:.1em}
+.card-loc{color:var(--text-muted);font-size:.88rem;font-style:italic;margin-top:.2rem}
+.card-detail{color:rgba(240,232,208,.3);font-size:.82rem}
+
+/* Hero */
+.hero-card{background:linear-gradient(135deg,var(--black-warm) 0%,var(--black-mid) 100%);border:1.5px solid var(--gold);padding:2.5rem;margin-bottom:2rem;text-align:center;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.hero-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.hero-names{font-family:'Cinzel',serif;font-size:clamp(2rem,7vw,3.5rem);color:var(--gold-lt);letter-spacing:.1em;text-shadow:0 0 30px rgba(212,175,55,.4)}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(240,232,208,.8);font-style:italic;margin-top:.4rem}
+.hero-date{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-muted);margin-top:.8rem}
+.hero-hash{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:rgba(212,175,55,.4);font-style:italic;margin-top:.35rem}
+
+/* Sunburst hero bg */
+.hero-sb{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='rgba(212,175,55,0.04)' stroke-width='1'%3E%3Cline x1='150' y1='150' x2='150' y2='0'/%3E%3Cline x1='150' y1='150' x2='300' y2='150'/%3E%3Cline x1='150' y1='150' x2='150' y2='300'/%3E%3Cline x1='150' y1='150' x2='0' y2='150'/%3E%3Cline x1='150' y1='150' x2='256' y2='44'/%3E%3Cline x1='150' y1='150' x2='256' y2='256'/%3E%3Cline x1='150' y1='150' x2='44' y2='256'/%3E%3Cline x1='150' y1='150' x2='44' y2='44'/%3E%3Ccircle cx='150' cy='150' r='120'/%3E%3Ccircle cx='150' cy='150' r='80'/%3E%3Ccircle cx='150' cy='150' r='40'/%3E%3C/g%3E%3C/svg%3E") center/contain repeat;opacity:.5;pointer-events:none}
+
+.section-title{font-family:'Cinzel',serif;font-size:.78rem;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.75rem}
+.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(212,175,55,.4),transparent)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.5rem}
+@media(max-width:500px){.info-grid{grid-template-columns:1fr}}
+.info-block{background:var(--card-bg);border:1px solid var(--card-border);padding:1.2rem;border-top:2px solid var(--gold)}
+.info-block h4{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.info-block p{color:rgba(240,232,208,.65);font-size:.92rem;line-height:1.65}
+.big-time{font-family:'Cinzel',serif;font-size:1.4rem;color:var(--gold-lt);letter-spacing:.08em}
+
+/* Search */
+.search-box{background:var(--card-bg);border:1px solid var(--border-bright);padding:1rem;margin-bottom:1.5rem}
+.search-box input{width:100%;padding:.7rem 1rem;border:1px solid var(--border);background:var(--black);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:.95rem}
+.search-box input::placeholder{color:var(--text-muted)}
+.guest-row{display:flex;align-items:center;margin-bottom:.5rem;background:var(--card-bg);border:1px solid var(--border);padding:.65rem 1rem}
+.guest-name{flex:1;color:rgba(240,232,208,.7);font-size:.9rem}
+.table-badge{padding:.2rem .65rem;background:var(--gold);color:var(--black);border:none;font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;clip-path:polygon(4px 0%,calc(100% - 4px) 0%,100% 4px,100% calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,0% calc(100% - 4px),0% 4px)}
+.table-badge:hover{background:var(--gold-lt)}
+.table-expand{background:var(--card-bg);border:1px solid var(--border);padding:1rem;margin-bottom:.6rem;color:rgba(240,232,208,.6);font-size:.88rem}
+
+/* Photo upload */
+.upload-label{display:block;cursor:pointer;padding:1.2rem;background:linear-gradient(135deg,var(--gold-dk),var(--gold));color:var(--black);font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;text-align:center;transition:all .3s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0% calc(100% - 6px),0% 6px)}
+.upload-label:hover{background:linear-gradient(135deg,var(--gold),var(--gold-lt))}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;margin-top:1rem}
+.photo-item{border-radius:0;overflow:hidden;border:1px solid var(--border);aspect-ratio:1}
+.photo-item img{width:100%;height:100%;object-fit:cover}
+
+/* Gifts */
+.gift-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.gift-tab-btn{padding:.5rem 1.2rem;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;background:none;color:var(--text-muted);border-bottom:2px solid transparent}
+.gift-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.form-label{display:block;font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.form-input{width:100%;padding:.7rem 1rem;background:var(--black);border:1px solid var(--border);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:.95rem;margin-bottom:.9rem}
+.form-input::placeholder{color:var(--text-muted)}
+.form-textarea{width:100%;padding:.7rem 1rem;background:var(--black);border:1px solid var(--border);color:var(--text);font-family:'Cormorant Garamond',serif;font-size:.95rem;min-height:80px;resize:vertical;margin-bottom:.9rem}
+.quick-btns{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.9rem}
+.quick-btn{padding:.7rem;background:var(--black);border:1px solid var(--border);color:var(--gold-lt);font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.1em;cursor:pointer;transition:all .3s}
+.quick-btn:hover,.quick-btn.selected{border-color:var(--gold);background:rgba(212,175,55,.08);color:var(--gold)}
+
+/* Registry cards */
+.registry-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem}
+.reg-card{background:var(--card-bg);border:1px solid var(--card-border);overflow:hidden;transition:all .3s}
+.reg-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.reg-card img{width:100%;height:170px;object-fit:cover;background:var(--black-warm)}
+.reg-card-body{padding:.9rem}
+.reg-card-title{font-family:'Cormorant Garamond',serif;font-size:.92rem;color:var(--text);margin-bottom:.4rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4rem}
+.reg-card-rating{font-size:.78rem;color:var(--gold);margin-bottom:.35rem}
+.reg-card-price{font-family:'Cinzel',serif;font-size:1.05rem;color:var(--gold-lt);margin-bottom:.8rem}
+.reg-card-btn{width:100%;padding:.65rem;background:linear-gradient(135deg,var(--gold-dk),var(--gold));color:var(--black);border:none;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:block;text-align:center;transition:all .3s}
+.reg-card-btn:hover{background:linear-gradient(135deg,var(--gold),var(--gold-lt))}
+
+/* Submit button */
+.submit-btn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--gold-dk),var(--gold));color:var(--black);border:none;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s;clip-path:polygon(6px 0%,calc(100% - 6px) 0%,100% 6px,100% calc(100% - 6px),calc(100% - 6px) 100%,6px 100%,0% calc(100% - 6px),0% 6px)}
+.submit-btn:hover{background:linear-gradient(135deg,var(--gold),var(--gold-lt));transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,55,.3)}
+
+/* Wish cards */
+.wish-card{background:var(--card-bg);border:1px solid var(--card-border);padding:1rem;margin-bottom:.75rem;border-left:2px solid var(--gold)}
+.wish-author{font-family:'Cinzel',serif;font-size:.6rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase}
+.wish-time{font-size:.7rem;color:var(--text-muted);margin-top:.15rem}
+.wish-text{color:rgba(240,232,208,.65);line-height:1.7;margin-top:.6rem;font-style:italic}
+
+/* Security note */
+.security-note{background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.15);padding:.9rem;margin-top:.5rem}
+.security-note p{font-size:.8rem;color:var(--text-muted);margin:0}
+
+/* Admin button */
+.admin-btn-wrap{position:fixed;bottom:1rem;right:1rem;z-index:9999}
+.admin-btn{background:var(--black-warm);color:var(--text-muted);border:1px solid var(--border);padding:.4rem .9rem;cursor:pointer;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.1em}
+
+/* Animations */
+.fade-out{animation:splashOut 1.2s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes splashOut{to{opacity:0;transform:scale(1.03)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes grandReveal{from{opacity:0;transform:translateY(28px) scale(.97);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes goldShimmer{0%,100%{background-position:0%}50%{background-position:100%}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══ THEME: Celestial OVERRIDES ═══ */
+
+:root{
+  --gold:#C8B468;--gold-lt:#E8D488;--gold-pale:#F5EDD8;--gold-dk:#A09048;
+  --black:#04060F;--black-mid:#0A0E20;--black-warm:#0F1428;
+  --text:#EDE8D5;--text-muted:rgba(200,180,104,0.5);
+  --border:rgba(200,180,104,0.2);--border-bright:rgba(200,180,104,0.4);
+  --card-bg:#0A0E20;--card-border:rgba(200,180,104,0.18);
+}
+body{background:radial-gradient(ellipse 85% 85% at 50% 40%,#0A0E20 0%,#04060F 70%);color:var(--text)}
+#app{background:radial-gradient(ellipse 85% 85% at 50% 40%,#0A0E20 0%,#04060F 70%)}
+.app-header{background:linear-gradient(135deg,#0F1428,#04060F);border-bottom:2px solid var(--gold)}
+.header-title{font-family:'Cinzel',serif;color:var(--gold-lt);letter-spacing:.12em;text-shadow:0 0 20px rgba(200,180,104,.3)}
+.header-subtitle{color:var(--text-muted);font-style:italic;font-size:.88rem}
+.tabs{background:rgba(0,0,0,.4);border-top:1px solid var(--border)}
+.tab-btn.active{background:var(--gold);color:#04060F}
+.tab-btn.inactive{background:rgba(200,180,104,.06);color:var(--text);border:1px solid var(--border)}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-left:3px solid var(--gold)}
+.card h3{color:var(--gold);font-family:'Cinzel',serif}
+.card-time{color:var(--gold-lt)}
+.card-loc{color:var(--text-muted)}
+.hero-card{background:linear-gradient(135deg,#0F1428,#04060F);border:1.5px solid var(--gold);box-shadow:0 8px 40px rgba(0,0,0,.6)}
+.hero-names{color:var(--gold-lt);font-family:'Cinzel',serif}
+.hero-tagline{color:rgba(237,232,213,.75)}
+.hero-date{color:var(--text-muted);font-family:'Cinzel',serif}
+.hero-hash{color:rgba(200,180,104,.4)}
+.section-title{color:var(--gold);font-family:'Cinzel',serif}
+.section-title::after{background:linear-gradient(to right,rgba(200,180,104,.4),transparent)}
+.info-block{background:var(--card-bg);border:1px solid var(--card-border);border-top:2px solid var(--gold)}
+.info-block h4{color:var(--gold);font-family:'Cinzel',serif}
+.info-block p{color:rgba(237,232,213,.65)}
+.big-time{color:var(--gold-lt);font-family:'Cinzel',serif}
+.search-box{background:var(--card-bg);border:1px solid var(--border-bright)}
+.search-box input{background:#04060F;border:1px solid var(--border);color:var(--text)}
+.guest-row{background:var(--card-bg);border:1px solid var(--border)}
+.guest-name{color:rgba(237,232,213,.7)}
+.table-badge{background:var(--gold);color:#04060F}
+.table-expand{background:var(--card-bg);border:1px solid var(--border);color:rgba(237,232,213,.6)}
+.upload-label{background:linear-gradient(135deg,var(--gold-dk),var(--gold));color:#04060F}
+.gift-tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.gift-tab-btn{color:var(--text-muted)}
+.form-label{color:var(--gold);font-family:'Cinzel',serif}
+.form-input,.form-textarea{background:#04060F;border:1px solid var(--border);color:var(--text)}
+.quick-btn{background:#04060F;border:1px solid var(--border);color:var(--gold-lt)}
+.quick-btn.selected,.quick-btn:hover{border-color:var(--gold);background:rgba(200,180,104,.08);color:var(--gold)}
+.reg-card{background:var(--card-bg);border:1px solid var(--card-border)}
+.reg-card:hover{border-color:var(--gold)}
+.reg-card-title{color:var(--text)}
+.reg-card-rating{color:var(--gold)}
+.reg-card-price{color:var(--gold-lt)}
+.reg-card-btn,.submit-btn{background:linear-gradient(135deg,var(--gold-dk),var(--gold));color:#04060F}
+.wish-card{background:var(--card-bg);border:1px solid var(--card-border);border-left:3px solid var(--gold)}
+.wish-author{color:var(--gold);font-family:'Cinzel',serif}
+.wish-time{color:var(--text-muted)}
+.wish-text{color:rgba(237,232,213,.65)}
+.security-note{background:rgba(200,180,104,.05);border:1px solid rgba(200,180,104,.15)}
+.security-note p{color:var(--text-muted)}
+.admin-btn{background:#0A0E20;color:var(--text-muted);border:1px solid var(--border)}
+
+
+
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ SPLASH ══════════════════════ -->
+<div id="splash" onclick="enterApp()">
+  <canvas id="sf" style="position:absolute;inset:0;pointer-events:none;z-index:1"></canvas>
+  <canvas id="sc" style="position:absolute;inset:0;pointer-events:none;z-index:2"></canvas>
+  <svg style="position:absolute;inset:0;pointer-events:none;z-index:3;animation:fadeIn 3s ease 1s both" viewBox="0 0 1400 900" fill="none">
+    <g stroke="rgba(200,180,104,0.12)" stroke-width=".8"><line x1="80" y1="180" x2="110" y2="240"/><line x1="110" y1="240" x2="150" y2="200"/><line x1="150" y1="200" x2="195" y2="260"/><line x1="195" y1="260" x2="170" y2="320"/><line x1="170" y1="320" x2="120" y2="340"/><line x1="120" y1="340" x2="110" y2="240"/><line x1="1220" y1="140" x2="1260" y2="180"/><line x1="1260" y1="180" x2="1300" y2="150"/><line x1="1300" y1="150" x2="1340" y2="190"/></g>
+    <g fill="rgba(220,205,165,0.45)"><circle cx="80" cy="180" r="1.8"/><circle cx="110" cy="240" r="2.2"/><circle cx="150" cy="200" r="1.6"/><circle cx="195" cy="260" r="2.8"/><circle cx="1220" cy="140" r="2"/><circle cx="1260" cy="180" r="1.6"/><circle cx="1300" cy="150" r="2.8"/><circle cx="400" cy="100" r="1.5"/><circle cx="650" cy="75" r="2.2"/><circle cx="900" cy="90" r="1.5"/></g>
+  </svg>
+  <!-- Moon phases -->
+  <svg style="position:absolute;top:clamp(18px,4.5vh,50px);left:50%;transform:translateX(-50%);width:min(88vw,580px);z-index:4;animation:fadeIn 2s ease .5s both" viewBox="0 0 580 70" fill="none">
+    <g fill="rgba(200,175,115,0.32)" stroke="rgba(200,175,115,0.22)" stroke-width=".5">
+      <circle cx="50" cy="35" r="11" fill="none" stroke="rgba(200,175,115,0.35)"/>
+      <circle cx="108" cy="35" r="11" fill="rgba(200,175,115,0.12)"/>
+      <path d="M108 24 A11 11 0 0 1 108 46 A6 11 0 0 0 108 24" fill="rgba(200,175,115,0.42)"/>
+      <circle cx="166" cy="35" r="11" fill="rgba(200,175,115,0.1)"/>
+      <path d="M166 24 L166 46 A11 11 0 0 0 166 24" fill="rgba(200,175,115,0.48)"/>
+      <circle cx="290" cy="35" r="15" fill="rgba(218,198,145,0.58)"/>
+      <circle cx="290" cy="35" r="15" stroke="rgba(218,198,145,0.48)" fill="none" stroke-width="1"/>
+      <circle cx="414" cy="35" r="11" fill="rgba(200,175,115,0.1)"/>
+      <path d="M414 24 L414 46 A11 11 0 0 1 414 24" fill="rgba(200,175,115,0.48)"/>
+      <circle cx="472" cy="35" r="11" fill="rgba(200,175,115,0.12)"/>
+      <path d="M472 24 A11 11 0 0 0 472 46 A6 11 0 0 1 472 24" fill="rgba(200,175,115,0.42)"/>
+      <circle cx="530" cy="35" r="11" fill="none" stroke="rgba(200,175,115,0.35)"/>
+    </g>
+  </svg>
+  <div style="position:absolute;inset:22px;border:1px solid rgba(200,175,115,.14);pointer-events:none;animation:fadeIn 1.5s ease .4s both"></div>
+  <div style="position:absolute;inset:30px;border:1px solid rgba(200,175,115,.07);pointer-events:none;animation:fadeIn 1.5s ease .7s both"></div>
+  <div style="position:relative;z-index:10;text-align:center;display:flex;flex-direction:column;align-items:center;padding:0 clamp(1.5rem,6vw,5rem);padding-top:clamp(2rem,6vh,4rem)">
+    <p style="font-family:'Cinzel',serif;font-size:clamp(.48rem,1vw,.58rem);letter-spacing:.45em;color:rgba(200,175,115,.48);text-transform:uppercase;animation:riseIn .8s ease .6s both;margin-bottom:1.5rem">Written in the Stars</p>
+    <div style="display:flex;align-items:center;gap:clamp(.3rem,1.5vw,1rem);margin-bottom:1.4rem;animation:riseIn .8s ease .8s both"><span style="color:rgba(200,175,115,.5);font-size:clamp(.8rem,2vw,1.2rem)">☽</span><span style="color:rgba(220,200,140,.8);font-size:clamp(1.2rem,3vw,1.7rem)">✦</span><span style="color:rgba(200,175,115,.5);font-size:clamp(.8rem,2vw,1.2rem)">☾</span></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,10vw,7rem);color:#EDE8D5;line-height:.9;font-style:italic;animation:grandReveal 1.5s cubic-bezier(.16,1,.3,1) .85s both;text-shadow:0 0 60px rgba(200,175,115,.18)"><span style="display:block">Beven</span><span style="font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.8rem);color:rgba(200,175,115,.42);display:block;margin:.12em 0;animation:riseIn .8s ease 1.4s both">&amp;</span><span style="display:block;font-style:normal">Anju</span></div>
+    <div style="display:flex;align-items:center;gap:8px;width:200px;max-width:75vw;margin:1.8rem auto 0;animation:fadeIn .8s ease 1.7s both"><div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(200,175,115,.28),transparent)"></div><span style="color:rgba(200,175,115,.45);font-size:.6rem">✦</span><div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(200,175,115,.28),transparent)"></div></div>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(.82rem,1.8vw,1rem);color:rgba(237,232,213,.42);letter-spacing:.22em;font-style:italic;animation:riseIn .8s ease 1.9s both;margin-top:1.2rem">Saturday · April 18, 2026</p>
+    <p style="font-family:'Cinzel',serif;font-size:.54rem;color:rgba(200,175,115,.28);letter-spacing:.3em;text-transform:uppercase;animation:riseIn .8s ease 2.1s both;margin-top:.4rem">Frisco &amp; Plano · Texas</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:.85rem;color:rgba(237,232,213,.16);font-style:italic;animation:riseIn .8s ease 2.3s both;margin-top:1.6rem">#bevgotthejuice</p>
+    <div style="animation:riseIn .8s ease 2.7s both;margin-top:2.8rem"><button onclick="enterApp();event.stopPropagation()" style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:#04060F;background:linear-gradient(135deg,rgba(220,200,138,.95),rgba(180,152,98,.9));border:none;padding:.85rem 2.5rem;cursor:pointer;transition:all .3s;box-shadow:0 4px 24px rgba(200,175,115,.22)">Open Your Guide ✦</button></div>
+  </div>
+  <button onclick="enterApp();event.stopPropagation()" style="position:absolute;bottom:1.8rem;right:1.8rem;font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(200,175,115,.18);border:none;background:none;cursor:pointer">skip</button>
+  <script>
+  const sf=document.getElementById('sf'),sc2=sf.getContext('2d');
+  sf.style.width='100%';sf.style.height='100%';
+  sf.width=window.innerWidth;sf.height=window.innerHeight;
+  const stars=[];for(let i=0;i<240;i++)stars.push({x:Math.random()*sf.width,y:Math.random()*sf.height,r:Math.random()*1.5+.3,phase:Math.random()*Math.PI*2,speed:Math.random()*.006+.003});
+  (function t(){sc2.clearRect(0,0,sf.width,sf.height);stars.forEach(s=>{s.phase+=s.speed;const a=Math.max(.08,Math.abs(Math.sin(s.phase))*.85);sc2.beginPath();sc2.arc(s.x,s.y,s.r,0,Math.PI*2);sc2.fillStyle='rgba(220,210,185,'+a+')';sc2.fill()});requestAnimationFrame(t)})();
+  const sh=document.getElementById('sc'),shc=sh.getContext('2d');
+  sh.style.width='100%';sh.style.height='100%';
+  sh.width=window.innerWidth;sh.height=window.innerHeight;
+  const shots=[];function spawnS(){shots.push({x:Math.random()*sh.width*.8+sh.width*.05,y:Math.random()*sh.height*.35,vx:3.5+Math.random()*4,vy:1.8+Math.random()*2,len:90+Math.random()*110,a:1})}
+  (function ts(){shc.clearRect(0,0,sh.width,sh.height);shots.forEach((s,i)=>{s.x+=s.vx;s.y+=s.vy;s.a-=.016;if(s.a<=0){shots.splice(i,1);return}const sp=Math.sqrt(s.vx*s.vx+s.vy*s.vy);const g=shc.createLinearGradient(s.x,s.y,s.x-s.vx*s.len/sp,s.y-s.vy*s.len/sp);g.addColorStop(0,'rgba(220,200,150,'+s.a+')');g.addColorStop(1,'rgba(220,200,150,0)');shc.beginPath();shc.moveTo(s.x,s.y);shc.lineTo(s.x-s.vx*s.len/sp,s.y-s.vy*s.len/sp);shc.strokeStyle=g;shc.lineWidth=1.5;shc.stroke()});requestAnimationFrame(ts)})();
+  setInterval(spawnS,3800);setTimeout(spawnS,1200);
+  </script>
+</div>
+<!-- ══════════════════════ APP ══════════════════════ -->
+<div id="app">
+  <div class="app-header">
+    <div class="header-inner">
+      <div class="header-title">✦ Beven &amp; Anju ✦</div>
+      <div class="header-subtitle">Saturday, April 18, 2026</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'welcome')">💍 Welcome</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'schedule')">📅 Schedule</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'ceremony')">💒 Ceremony</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'seating')">🪑 Find My Seat</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'photos')">📸 Photos</button>
+      <button class="tab-btn inactive" onclick="openGiftsTab();switchTab(event,'gifts')">🎁 Gifts</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'tips')">💌 Wish Them</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- WELCOME -->
+    <div id="welcome" class="tab-content active">
+      <div class="hero-card">
+        <div class="hero-sb"></div>
+        <div style="position:relative;z-index:1">
+          <div class="hero-names">Beven &amp; Anju</div>
+          <div class="hero-tagline">are getting married!</div>
+          <div class="hero-date">Saturday · April 18, 2026</div>
+          <div class="hero-hash">#bevgotthejuice</div>
+        </div>
+      </div>
+      <div class="section-title">✦ Ceremony</div>
+      <div class="info-grid">
+        <div class="info-block"><h4>📍 Location</h4><p>St. Francis of Assisi Catholic Church<br>8000 Eldorado Pkwy, Frisco TX</p></div>
+        <div class="info-block"><h4>⏰ Time</h4><p class="big-time">1:30 PM</p><p style="font-size:.8rem;color:var(--text-muted);font-style:italic;margin-top:.3rem">Arrive 20–30 min early</p></div>
+      </div>
+      <div class="section-title">✦ Reception</div>
+      <div class="info-grid">
+        <div class="info-block"><h4>📍 Location</h4><p>Dallas/Plano Marriott at Legacy Town Center<br>7121 Bishop Rd, Plano TX 75024</p></div>
+        <div class="info-block"><h4>⏰ Timeline</h4><p>Cocktail Hour: 5:00 PM<br>Dinner: 8:00 PM<br>Dancing: 10:00 PM</p></div>
+      </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div id="schedule" class="tab-content">
+      <div class="section-title">✦ Wedding Day Schedule</div>
+      <div class="card"><div class="card-time">1:30 PM</div><h3>Ceremony Begins</h3><div class="card-loc">St. Francis of Assisi Catholic Church · Frisco TX</div><div class="card-detail">Please arrive 20–30 minutes early</div></div>
+      <div class="card"><div class="card-time">3:30 PM</div><h3>Ceremony Ends</h3></div>
+      <div class="card"><div class="card-time">5:00 PM</div><h3>Cocktail Hour Opens</h3><div class="card-loc">Marriott at Legacy Town Center · Plano TX</div></div>
+      <div class="card"><div class="card-time">6:00 PM</div><h3>Bar Opens</h3></div>
+      <div class="card"><div class="card-time">7:15 PM</div><h3>Reception Grand Entrance</h3></div>
+      <div class="card"><div class="card-time">8:00 PM</div><h3>Dinner Served</h3></div>
+      <div class="card"><div class="card-time">10:00 PM</div><h3>Dance Floor Opens</h3></div>
+      <div class="card"><div class="card-time">12:00 AM</div><h3>Reception Ends</h3></div>
+    </div>
+
+    <!-- CEREMONY -->
+    <div id="ceremony" class="tab-content">
+      <div class="section-title">✦ Ceremony Guide</div>
+      <div class="card" style="text-align:center;padding:2rem">
+        <h3 style="font-size:.9rem;margin-bottom:1rem">📖 Complete Ceremony Service Book</h3>
+        <p style="color:rgba(240,232,208,.55);font-size:.9rem;margin-bottom:1.5rem;font-style:italic">Full liturgical texts · Syro-Malankara traditions explained</p>
+        <a href="BryLin_Wedding_Service_Book.pdf" target="_blank" class="submit-btn" style="text-decoration:none;display:inline-block;width:auto;padding:.85rem 2rem">📄 Open Service Book (PDF)</a>
+      </div>
+      <div class="card"><p style="color:rgba(240,232,208,.55);font-size:.9rem">🙏 <strong style="color:var(--gold-lt)">Prayers &amp; Readings</strong> — Full liturgical texts in service book</p></div>
+      <div class="card"><p style="color:rgba(240,232,208,.55);font-size:.9rem">👑 <strong style="color:var(--gold-lt)">Ceremony Meanings</strong> — Syro-Malankara traditions explained in service book</p></div>
+    </div>
+
+    <!-- SEATING -->
+    <div id="seating" class="tab-content">
+      <div class="section-title">✦ Reception Seating Chart</div>
+      <div class="search-box">
+        <label class="form-label">Search Guest Name</label>
+        <input type="text" id="searchInput" placeholder="Type your name to find your table..." oninput="filterSeating()">
+      </div>
+      <div id="seatingResults"></div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div id="photos" class="tab-content">
+      <div class="section-title">✦ Share Photos &amp; Memories</div>
+      <div class="card" style="text-align:center;padding:1.5rem 1rem">
+        <label for="photoInput" class="upload-label">📸 Select Photo to Upload</label>
+        <input type="file" id="photoInput" accept="image/*" style="display:none">
+        <p id="uploadStatus" style="color:var(--gold);margin-top:.6rem;font-style:italic;font-size:.88rem"></p>
+        <p style="color:var(--text-muted);font-size:.8rem;margin-top:.8rem;font-style:italic">Tag photos on Instagram with <strong style="color:var(--gold-lt)">#bevgotthejuice</strong></p>
+      </div>
+      <div class="section-title" style="margin-top:1.5rem">✦ Live Photo Feed</div>
+      <div class="photo-grid" id="photoGallery">
+        <p style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-style:italic;padding:2rem">Photos will appear here as guests upload them ✦</p>
+      </div>
+    </div>
+
+    <!-- GIFTS -->
+    <div id="gifts" class="tab-content">
+      <div class="section-title">✦ Gifts &amp; Registry</div>
+      <div class="gift-tabs">
+        <button onclick="switchGiftTab('registry')" id="registryTabBtn" class="gift-tab-btn active">📋 Registry</button>
+        <button onclick="switchGiftTab('cash')" id="cashTabBtn" class="gift-tab-btn">💝 Cash Gift</button>
+      </div>
+
+      <div id="giftRegistry">
+        <div class="registry-grid" id="registryFeed">
+          <div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted)">
+            <div style="display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin-right:.5rem;vertical-align:middle"></div>
+            Loading registry items...
+          </div>
+        </div>
+      </div>
+
+      <div id="giftCash" style="display:none">
+        <div class="card">
+          <p style="color:var(--text-muted);margin-bottom:1.2rem;font-style:italic">Give a cash gift directly or via Venmo @beven_anju</p>
+          <div class="section-title" style="font-size:.62rem">Quick Select Amount</div>
+          <div class="quick-btns">
+            <button onclick="setGiftAmount(50,this)" class="quick-btn">$50</button>
+            <button onclick="setGiftAmount(100,this)" class="quick-btn">$100</button>
+            <button onclick="setGiftAmount(150,this)" class="quick-btn">$150</button>
+            <button onclick="setGiftAmount(250,this)" class="quick-btn">$250</button>
+          </div>
+          <label class="form-label">Gift Amount</label>
+          <div style="position:relative;margin-bottom:.9rem">
+            <span style="position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--gold)">$</span>
+            <input type="number" id="giftAmount" class="form-input" placeholder="0.00" style="padding-left:2rem;margin-bottom:0">
+          </div>
+          <label class="form-label">Your Name</label>
+          <input type="text" id="giftGuestName" class="form-input" placeholder="John Doe">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="giftGuestEmail" class="form-input" placeholder="john@example.com">
+          <label class="form-label">Message (Optional)</label>
+          <textarea id="giftMessage" class="form-textarea" placeholder="Best wishes for your marriage..."></textarea>
+          <button onclick="submitGiftIntent()" class="submit-btn">💝 Proceed to Payment</button>
+          <div class="security-note"><p>🔒 Secure payment coming soon. Please use Venmo @beven_anju or contact the couple directly.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS / WISHES -->
+    <div id="tips" class="tab-content">
+      <div class="section-title">✦ Wish The Couple</div>
+      <div class="card">
+        <label class="form-label">Your Wish or Blessing</label>
+        <textarea id="tipInput" class="form-textarea" placeholder="Share your marriage wisdom or wishes..."></textarea>
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem">
+          <input type="checkbox" id="nameCheckbox" style="width:16px;height:16px;accent-color:var(--gold)">
+          <label for="nameCheckbox" style="color:rgba(240,232,208,.6);font-size:.88rem;cursor:pointer">Share my name</label>
+        </div>
+        <div id="nameFieldContainer" style="display:none;margin-bottom:.9rem">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="nameInput" class="form-input" placeholder="Your name...">
+        </div>
+        <button onclick="submitTip()" class="submit-btn">💌 Submit Wish</button>
+        <p id="tipStatus" style="color:var(--gold);text-align:center;margin-top:.5rem;font-style:italic;font-size:.88rem"></p>
+      </div>
+      <div class="section-title" style="margin-top:1.5rem">✦ Live Wishes Feed</div>
+      <div id="tipsContainer">
+        <p style="text-align:center;color:var(--text-muted);font-style:italic;padding:1.5rem">Wishes will appear here as guests submit them ✦</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<div class="admin-btn-wrap" style="display:none" id="adminWrap">
+  <button onclick="toggleAdminMode()" class="admin-btn">🔓 Admin</button>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+/* ── SPLASH ── */
+let splashDone=false;
+function enterApp(){
+  if(splashDone)return;splashDone=true;
+  document.getElementById('splash').classList.add('fade-out');
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('adminWrap').style.display='block';
+    initFirebase();
+  },1200);
+}
+setTimeout(enterApp,9000);
+
+/* ── TABS ── */
+function switchTab(e,tab){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el=>{el.classList.remove('active');el.classList.add('inactive')});
+  document.getElementById(tab).classList.add('active');
+  e.target.classList.add('active');e.target.classList.remove('inactive');
+}
+
+/* ── GIFT TABS ── */
+function switchGiftTab(type){
+  const reg=document.getElementById('giftRegistry'),cash=document.getElementById('giftCash');
+  const rBtn=document.getElementById('registryTabBtn'),cBtn=document.getElementById('cashTabBtn');
+  if(type==='registry'){
+    reg.style.display='block';cash.style.display='none';
+    rBtn.classList.add('active');cBtn.classList.remove('active');
+    loadRegistryFeed();
+  }else{
+    reg.style.display='none';cash.style.display='block';
+    cBtn.classList.add('active');rBtn.classList.remove('active');
+  }
+}
+function openGiftsTab(){switchGiftTab('cash')}
+
+async function loadRegistryFeed(){
+  const el=document.getElementById('registryFeed');
+  try{
+    const r=await fetch('https://wedding-registry-api-124ee74e2ff7.herokuapp.com/api/registry/amazon/beven-anju');
+    if(!r.ok)throw new Error();
+    const items=await r.json();
+    if(!items||!items.length){el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);font-style:italic">All gifts purchased! Thank you ✦</div>';return;}
+    el.innerHTML=items.map(i=>`<div class="reg-card"><img src="${i.image}" alt="${i.title}" onerror="this.src='https://via.placeholder.com/200x170?text=No+Image'"><div class="reg-card-body"><div class="reg-card-title">${i.title}</div><div class="reg-card-rating">⭐ ${i.rating} (${i.reviews} reviews)</div><div class="reg-card-price">$${i.price.toFixed(2)}</div><a href="${i.affiliateLink}" target="_blank" class="reg-card-btn">Buy this gift</a></div></div>`).join('');
+  }catch(e){el.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted)">Registry loading... please refresh.</div>'}
+}
+setInterval(()=>{const g=document.getElementById('gifts');if(g&&g.classList.contains('active')&&document.getElementById('giftRegistry').style.display!=='none')loadRegistryFeed();},300000);
+
+function setGiftAmount(amt,btn){
+  document.getElementById('giftAmount').value=amt;
+  document.querySelectorAll('.quick-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function submitGiftIntent(){
+  const amt=document.getElementById('giftAmount').value;
+  const name=document.getElementById('giftGuestName').value;
+  const email=document.getElementById('giftGuestEmail').value;
+  if(!amt||!name||!email){alert('Please fill in all required fields');return;}
+  if(parseFloat(amt)<1){alert('Please enter at least $1');return;}
+  alert(`Thank you ${name}! Your gift of $${parseFloat(amt).toFixed(2)} has been noted!\n\nPlease use Venmo @beven_anju for payment.`);
+  document.getElementById('giftAmount').value='';
+  document.getElementById('giftGuestName').value='';
+  document.getElementById('giftGuestEmail').value='';
+  document.getElementById('giftMessage').value='';
+  document.querySelectorAll('.quick-btn').forEach(b=>b.classList.remove('selected'));
+}
+
+/* ── SEATING ── */
+const seatingData=[{table:1,guests:['Bryan Chempanal','Allen John','Sara Relton','Noel Mathews','Akhil Abraham','Jim Reeves','Ashish Mathai','Joshua George','Bindu George','Olivia George','Justin George','Michelle George','Luka George','Liam George','Terry Sajan','Caren Punnoose','Angel Abraham','Noble Mathew','Jordan Sam']},{table:2,guests:['Abin Alex','Leema Kalayil','Mevin Chacko','Ashley Mathew','Ashna Manthuruthil','Rino Muringothu','Vini Kuzhippil','Jibin Kuzhippil','Regina Mathew','Jason Luke','Mikki Mendoza','Miguel Mendoza','Nibiya Abraham','Roshan Thomas','Sneha Daniel','Britney Nadakuzhackal','Deepa Surendran','Rachel Vulk','Raichel Franklin','Marissa Varghese']},{table:3,guests:['Viji Chempanal','Elizabeth Chempanal','Jose George','Letha George','Lally Boban','Boban Oonunny','Mariamma Sam','Oomen Sam','Giby Vinod','Daniel Rajagiriyal','Chinnamma Rajagiriyal']},{table:4,guests:['Jithin Johnson','Eliza Johnson','Shobin Mathew','Sara Mathew','Madi Saunders','Jalen Saunders','Cole Cassandra','Cassandra Cole','Josh Sara','Sarah Granado']},{table:5,guests:['Laly Joyes','Joyes George','Dona Jose','Lijin Joyes','Chacko Jacob','Leelamma Jacob','Kavya Vinod','Shinto George','Kevin Mathews','Donna Mathews']},{table:6,guests:['K.A Jacob','Susy Jacob','Sanjay Kuriakose','Shiney Kuriakose','Kurian Kuriakose','Aleyamma Kuriakose','Philip Kurian','Mariamma Philip','K.C Thomas','Ammini Thomas']},{table:7,guests:['Bincent Jacob','Nisha Jacob','Bincy Joy','Tony Joy','Blessy Mathew','Vinai Mathew','Mia Mathew','Swadeep Rachoor','Naveetha Reddy','Arjun Reddy']},{table:8,guests:['Ani Malikarukayil','Gigi Jacob','Muthu Malikarukayil','Jinu George','James Padiyara','Jessy Padiyara','Jacob Kochumaliyil','Molly Jacob','Korah Kuriakose','Betty Korah']},{table:9,guests:['Kuriakose Cherian','Elsa Kuriakose','Shanta Devasia','Devasia Thankachen','Molly James','James Kavalam','Sabu Markose']},{table:10,guests:['Shiju Abraham','Elcy Abraham','Lalu Thomas','Ancy Thomas','Rishma Mathew','Mathew Zachariah','Sherley Vulk','Tels Abraham','Saumya Abraham','Rittu Punnoose','Subiya Punnoose']},{table:11,guests:['James Mathew','Grace Mathew','Roy Mathew','Bini Mathew','Roy George','Leena Roy','AM Georgekutty','Molly Georgekutty','AV Philipose','Jainamma Philipose']},{table:12,guests:['Manjesh Chacko','Stephy Chacko','Shinu Punnoose','Romy Punnoose','Jerry Padiyara','Vinaya Padiyara','Vinil Abraham','Joice Abraham','Vinod Chacko','Christy Chacko']},{table:13,guests:['Tina Abraham','Ance Aickareth','Tim Aickareth','Bejoy Devasia','Asha Devasia','Vinu Kavalam','Nisha Kavalam','Nancy Rajan','Roby Rajan','Ebby Rajagiriyal','Lina Rajagiriyal']},{table:14,guests:['Samuel Varghese','Saramma Varghese','Jose James','Sherly James','Jancy Wilson','Wilson Wilson','Renni Abraham','Nisha Abraham','James Uthuppan','Biya James']},{table:15,guests:['Shebin Philip','Soumya Shebin','Daniel Shebin','Angel Shebin','David Shebin','Olivia Thomas','Christian Thomas','Alyssa Thomas','Suja Raju','Raju Raju']},{table:16,guests:['Shaji Parathaodathil','Raymol Parathaodathil','Fr. Saju Joseph','Fr. Abraham Thomas','Rv. Fr. Abey Abraham','Jubil Abraham','Rv. Fr. Joseph Kurian','Annie Kurian','Chacko Itty','Annamma Itty']},{table:17,guests:['Vijay Kuruvilla','Solly Kuruvilla','Ivana George','Jovana George','Kemuel George','Reagan Phillip','Millie Mathew','Nathan Philip','Daniel Philip','Mia Philip']},{table:18,guests:['Saji Alex','Lissy Alex','Alexander Kuriakose','Mariamma Kuriakose','Abraham Scaria','Molly Abraham','Moncy Pulichammootil','Jessy Abraham','Joshi Joseph','Jessy Joshi','Asin Joshi']},{table:19,guests:['Steven Jacob','Simon Jacob','Tim Sam','Rachel Sam','Betsy Mangaleth','Jacob Mangaleth','Nicole Sam','Titus Sam','Jason George','Benji Boban','Betsy Boban']},{table:20,guests:['Alex Kuriakose','Chithra Kuriakose','Aaron Kuriakose','Claire Kuriakose','Azalea Kuriakose','Emily Kuriakose','Preji Kuriakose','Julia Kuriakose','Lily Kuriakose','Biju Thomas','Jilu Thomas']},{table:21,guests:['Josiah Boban','Jeremiah Boban','Leah Boban','Henry Sam','Elijah Jacob','Jonah Jacob','Ava Jacob','Anisha Saju','Sunny Johnson','Betty Boban','Ashley Sam']},{table:22,guests:['Thomas George','Betty Thomas','Benny Punnoose','Reni Punnoose','Bency Punnoose','Rinu Punnoose','Saji Abraham','Lissy Abraham','Monachen Kunnirickal','Annie Thomas']},{table:23,guests:['Chris Jose','Joanna Gnanayutham','Troy Philip','Basil Regi','Joel Sabu','Jasdev Singh','Joshua Skariah','Roshan Varughese','Isabel Ajit','Jonathan Mathai']},{table:24,guests:['Benny Thomas','Anu Thomas','Luke Varghese','Anie Varghese','Alex Jacob','Ruth Jacob','Suresh Kannantanathu','Sisy Thomas']},{table:25,guests:['Cyril Jose','Sybil Jose','Mindy Joseph','Jason Joseph','Josh Mathew','Jenny Mathew','Justin Mathew','Mereena Mathew','Denny Philip','Reshma Philip','Jason Mathew']},{table:26,guests:['Aju Mathew','Priya Aju','Tony Abraham','Deepa Abraham','Thommachan Kallamannil','Susan Thomas','Rittu Scaria','Minna Scaria','Ginu Uthuppan','Anju Zachariah']},{table:27,guests:['Shawn Kuriakose','Maya Kuriakose','Roman Kuriakose','Sheba Razi','Ramin Razi','Cyrus Razi','Lilly Razi','Penelope Razi','Glenn George']},{table:28,guests:['Ajo Vazhackal','Tinu Vazhackal','Iza Vazhackal','Eileen Vazhackal','Robin Kochethu','Renjini Kochethu','Shelly Shaji','Nimisha Shelly','Jibin James','Sherin James']},{table:29,guests:['Sheryl Cleveland','Hannah Varghese','Steven Mathew','Emily Mathew','Jerin Jacob','Brian Kurien','Kenny Thomas','Chris Thomas','Akhil Mathews']},{table:30,guests:['Shibu John','Valsamma John','Saji Kattuvelil','Omana Kattuvelil','Shaji Vazhackal','Sherly Vazhackal','Christina John','Thomas Mathew','Shannon Valimattathil','Jerrin Valimattathil','Priya Kattuvelil']},{table:31,guests:['James George','Stanley George','Smitha Stanley','Thomas George','Daisy Thomas','Jacob Varghese','Kunjumol Jacob','Varghese KV','Sheela Chacko']},{table:32,guests:['Tiby Punnoose','Meena Punnoose','Beena Mathews','Leena Roy Piravom','Sabu Abraham','Achammakutty Abraham','Sajan Abraham','Dolly Abraham']},{table:33,guests:['Jojy Koshy','Christina Koshy','Ligy Skariah','Soji Skariah','Ricardo Mendiola','Pattie Mandiola','Abey Thomas','Debby Thomas','Sean Hozumi','Jaclyn Hozumi','Bradley Thomas']},{table:34,guests:['Siby Abraham','Molamma Abraham','Sabu Adichira','Sheena Joseph','Kurian Benjamin','Laly Benjamin','Raju Abraham','Valsamma Abraham','Jose Thomas','Alice Thomas']},{table:35,guests:['Oomen George','Mariama George','Thomas Oonnunny','Susan Thomas','Titus Ooonnuny','Mathew Oonnuny','Joseph Varghese','Joy Koshy','Molly Koshy','Roy Thomas','Jessy Thomas']},{table:36,guests:['Steve Abraham','Lino Kalayil','Tommy Philip','Isabella Abraham','Jason Joy','Ashley Kurian','Jerrin Jacob','Minnu Jacob','Justin Abraham','Niki Thomas','Milen Daison']},{table:37,guests:['Aaron Chacko','Joel Abraham','Joshua Joseph','Kichu Mathew','Shanjez Reji','Abel Abraham','Bismi Kurien','Daniel Rajan','Sarah Rajan','Joshua Rajagiriyal','Abigail Rajagiriyal']},{table:38,guests:['Adam Punnoose','Minly Lam','Shilpa Thomas','Cassey John','Shalu Kattuvelil','Tobin Mathew','Jaimie Joy','Stephen Thomas','Christina Abraham','Andrew Abraham','Nathan Punnoose']},{table:39,guests:['Ashley Richards','Justin Richards','Holly Martin','Lee Martin','Heather Shapan','Marty Shapan','Louis Smith','Karina Smith','Cynthia Salinas']},{table:40,guests:['Achsah Thomas','Aliya Thomas','Hanoch Thomas','Silu Joseph','Sify Joseph','Sino Joseph','Danny Moncy','Alyssa Moncy','Janice Joy','Aleena Jacob','Aggie Punnoose']},{table:41,guests:['Lauren Morrow','Nathan G','Erica Glover','Cydne Glover','Sejal Bhandari','Kristen Crites','Wade Rhodes','Hannah Rhodes','Neebs Vincent','James Mwgani','Brittany Mwgani']},{table:42,guests:['Siby Maliyil','Leenu Maliyil','Heby Maliyil','Sinu Maliyil','Biju Maliyil','Reenu Maliyil','Vintu Maliyil','Soji Maliyil','Binu Maliyil','Betsy Maliyil']},{table:43,guests:['Janet Hoffman','J Hoffman','Thomas Huck','Lexi Huck','Chasiti Barnett','Roberta Gallagher','Melva Bazan','Jamela Norwood','Chelsy Oguinn','Raqel']},{table:44,guests:['Aby Mangalathu','Suni Mangalathu','Biju Kurian','Beena Philip','Rony Thomas','Shyla Rony','Sabu Kudakasaril','Sally Kudakasaril','Daison Alummootil','Bindu Daison']},{table:45,guests:['Varghese Mathew','Jolly Mathew','Sam Mathai','Kochumol Mathai','Varghese George','Annamma Zachariah','Suma Philip','Shibu Philip','George Varghese','Subi Philip']},{table:46,guests:['Nimmy Samuel','Jobin Samuel','Stephie Rajan','Chris Rajan','Bevin Chacko','Alka Chacko','Arlen Chacko','Danielle Bahrenburg','Nathan Bahrenburg','Neha Maliyil','Megha Maliyil']},{table:47,guests:['Jacob Chacko','Annie Jacob','Francis George','Jaya George','Joseph Kizhakethil','Sheela Joseph','George Thomas','Sally Thomas','Prince Samuel','Mini Prince','Annamma George']},{table:48,guests:['Winnie Saji','Kichu Kuriakose','Joe Baiju','Tressa Joseph','Maria Joseph','Amy Saji','Minnu Saji','Mini Mukkat','Kunjamma Vazhackal','Daisy Babu','Kiju Manthuruthil']},{table:49,guests:['Roy Chacko','Deepa Chacko','Joby Abraham','Jincy Abraham','Ajith Joseph','Ajo Joseph','Anu Joseph','Alfred Varghese','Anju Alfred','Roy Varghese']},{table:50,guests:['Tomcy Jacob','Maria Tom','Blesson Abraham','Nibin Abraham','Chinju Philip','Libin Biju','Kevin Kuttans Abraham','Sheryl Paul','Katherine Roy','Elma Andrews','Shane Thomas']},{table:51,guests:['Anup Varghese','Juby Kurian','Reji Varghese','Chacko Varkey','Reena Varkey','Jose Oomen','Soney Jose','Prasad Thomas','Sheeba Kuruvila','Thomas George']},{table:52,guests:['Kevin Punnoose','Eleesa Jacob','Arjun Mathew','Jerin Mathew','David Alummoottil','Jane Joy','Christine Jacob','Jasmine Jacob','Susan Ayala','Sergio Ayala','Elias Markose']},{table:53,guests:['Abraham Abraham','Suja Abraham','Biji Kurien','Shubha Kurien','Abraham Mathew','Moni Abraham','Jacob Joseph','Mini Joseph','Philip Chacko','Suma Chacko']},{table:54,guests:['Shawn Thomas','Becky Thomas','Noel Abraham','Leah Abraham','Angela Thomas','Lance Thomas','Allen Luke','Irene Markose','Irin Luke','Pramod Daniel']}];
+
+function filterSeating(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const r=document.getElementById('seatingResults');
+  if(!q){r.innerHTML='';return;}
+  const matches=[];
+  seatingData.forEach(t=>t.guests.forEach(g=>{if(g.toLowerCase().includes(q))matches.push({name:g,table:t.table})}));
+  if(!matches.length){r.innerHTML='<p style="text-align:center;color:var(--text-muted);padding:1.5rem;font-style:italic">No guests found with that name.</p>';return;}
+  let html=matches.map(m=>`<div class="guest-row"><span class="guest-name">${m.name}</span><button class="table-badge" onclick="expandTableAndScroll(${m.table})">🪑 Table ${m.table}</button></div>`).join('');
+  const tables=[...new Set(matches.map(g=>g.table))];
+  html+='<div style="margin-top:1.2rem">';
+  tables.forEach(n=>{
+    const t=seatingData.find(t=>t.table===n);
+    html+=`<div style="background:var(--card-bg);border:1px solid var(--border);border-top:2px solid var(--gold);padding:.8rem 1rem;margin-bottom:.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold-lt);letter-spacing:.1em" onclick="toggleTableDetails(${n})">🪑 TABLE ${n}<span id="arrow-${n}">▶</span></div>`;
+    html+=`<div id="details-${n}" style="display:none;background:var(--card-bg);border:1px solid var(--border);border-top:none;padding:.9rem 1rem;margin-bottom:.5rem">${t.guests.map(g=>`<p style="color:rgba(240,232,208,.6);margin-bottom:.4rem;font-size:.88rem">${g}</p>`).join('')}</div>`;
+  });
+  html+='</div>';
+  r.innerHTML=html;
+}
+function expandTable(n){const el=document.getElementById(`details-${n}`);if(el){el.style.display=el.style.display==='none'?'block':'none';const a=document.getElementById(`arrow-${n}`);if(a)a.textContent=el.style.display==='none'?'▶':'▼'}}
+function expandTableAndScroll(n){expandTable(n);setTimeout(()=>{const el=document.getElementById(`details-${n}`);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},100)}
+function toggleTableDetails(n){expandTable(n)}
+
+/* ── FIREBASE ── */
+const firebaseConfig={apiKey:"AIzaSyBFOtLI1dc8TCucVTTq0FdLqKCkJ2JSrZw",authDomain:"beven-anju-wedding.firebaseapp.com",projectId:"beven-anju-wedding",storageBucket:"beven-anju-wedding.firebasestorage.app",messagingSenderId:"590538162523",appId:"1:590538162523:web:e347bd99224fa5ca8b9a7e"};
+let db,storage,auth;
+function initFirebase(){
+  try{
+    if(typeof firebase!=='undefined'&&firebase.apps.length===0){
+      firebase.initializeApp(firebaseConfig);
+      db=firebase.firestore();storage=firebase.storage();auth=firebase.auth();
+      auth.signInAnonymously().catch(()=>{});
+      loadPhotos();loadTips();
+      db.collection('photos').orderBy('timestamp','desc').onSnapshot(()=>loadPhotos());
+    }else if(typeof firebase!=='undefined'&&firebase.apps.length>0){
+      db=firebase.firestore();storage=firebase.storage();auth=firebase.auth();
+      loadPhotos();loadTips();
+    }
+  }catch(e){setTimeout(initFirebase,1000)}
+}
+
+/* ── PHOTOS ── */
+document.getElementById('photoInput').addEventListener('change',async function(e){
+  const file=e.target.files[0];if(!file)return;
+  const st=document.getElementById('uploadStatus');
+  st.textContent='⏳ Scanning photo safety...';
+  try{
+    if(!storage){st.textContent='❌ Not ready. Try again.';return;}
+    const reader=new FileReader();
+    reader.onload=async(ev)=>{
+      const b64=ev.target.result.split(',')[1];
+      try{
+        const vr=await fetch(`https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBFOtLI1dc8TCucVTTq0FdLqKCkJ2JSrZw`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requests:[{image:{content:b64},features:[{type:'SAFE_SEARCH_DETECTION'}]}]})});
+        const vd=await vr.json();
+        if(vd.responses&&vd.responses[0]){
+          const ss=vd.responses[0].safeSearchAnnotation;
+          if((ss.adult==='LIKELY'||ss.adult==='VERY_LIKELY')||(ss.violence==='LIKELY'||ss.violence==='VERY_LIKELY')||(ss.racy==='LIKELY'||ss.racy==='VERY_LIKELY')){
+            st.textContent="❌ Photo doesn't meet our wedding guidelines. Please try another!";
+            document.getElementById('photoInput').value='';
+            setTimeout(()=>st.textContent='',5000);return;
+          }
+        }
+      }catch(err){console.log('Vision API error, proceeding:',err)}
+      st.textContent='⏳ Uploading...';
+      const fn=`photos/${Date.now()}_${file.name}`;
+      const task=storage.ref(fn).put(file);
+      task.on('state_changed',snap=>st.textContent=`⏳ Uploading... ${Math.round(snap.bytesTransferred/snap.totalBytes*100)}%`,err=>st.textContent='❌ Upload failed: '+err.message,async()=>{
+        const url=await task.snapshot.ref.getDownloadURL();
+        await db.collection('photos').add({url,timestamp:new Date(),fileName:file.name});
+        st.textContent='✅ Photo uploaded!';
+        document.getElementById('photoInput').value='';
+        setTimeout(()=>st.textContent='',3000);
+      });
+    };
+    reader.readAsDataURL(file);
+  }catch(err){document.getElementById('uploadStatus').textContent='❌ Error: '+err.message}
+});
+
+async function loadPhotos(){
+  if(!db)return;
+  try{
+    const snap=await db.collection('photos').orderBy('timestamp','desc').limit(50).get();
+    const el=document.getElementById('photoGallery');
+    if(snap.empty){el.innerHTML='<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-style:italic;padding:2rem">Photos will appear here as guests upload them ✦</p>';return;}
+    el.innerHTML=snap.docs.map(d=>`<div class="photo-item"><a href="${d.data().url}" target="_blank"><img src="${d.data().url}" alt="Wedding photo" onerror="this.parentElement.parentElement.remove()"></a></div>`).join('');
+  }catch(e){console.log('Photo load error:',e)}
+}
+
+/* ── TIPS ── */
+let isAdminMode=false;
+document.getElementById('nameCheckbox').addEventListener('change',function(){document.getElementById('nameFieldContainer').style.display=this.checked?'block':'none'});
+
+function isTextAppropriate(t){const banned=['fuck','shit','damn','hell','ass','bitch','cunt','cock','slut','whore','prick','dick','fag','motherfucker'];return!banned.some(w=>new RegExp('\\b'+w+'\\b','i').test(t))}
+
+async function submitTip(){
+  const text=document.getElementById('tipInput').value.trim();
+  const showName=document.getElementById('nameCheckbox').checked;
+  const name=document.getElementById('nameInput').value.trim();
+  const st=document.getElementById('tipStatus');
+  if(!text){st.textContent='❌ Please enter a wish!';return;}
+  if(showName&&!name){st.textContent='❌ Please enter your name!';return;}
+  if(!isTextAppropriate(text)){st.textContent='❌ Please keep it family-friendly! 💕';setTimeout(()=>st.textContent='',4000);return;}
+  st.textContent='⏳ Submitting...';
+  try{
+    if(!db){st.textContent='❌ Not ready. Try again.';return;}
+    await db.collection('tips').add({tip:text,name:showName?name:'Anonymous',timestamp:new Date(),isAnonymous:!showName});
+    st.textContent='✅ Wish submitted! ✦';
+    document.getElementById('tipInput').value='';
+    document.getElementById('nameInput').value='';
+    document.getElementById('nameCheckbox').checked=false;
+    document.getElementById('nameFieldContainer').style.display='none';
+    setTimeout(()=>st.textContent='',3000);
+  }catch(e){st.textContent='❌ Error: '+e.message}
+}
+
+function loadTips(){
+  if(!db)return;
+  db.collection('tips').orderBy('timestamp','desc').limit(50).onSnapshot(snap=>{
+    const el=document.getElementById('tipsContainer');
+    if(snap.empty){el.innerHTML='<p style="text-align:center;color:var(--text-muted);font-style:italic;padding:1.5rem">Wishes will appear here ✦</p>';return;}
+    el.innerHTML=snap.docs.map(d=>{
+      const data=d.data();
+      const ts=data.timestamp?new Date(data.timestamp.toDate()).toLocaleString():'Just now';
+      const del=isAdminMode?`<button onclick="deleteTip('${d.id}')" style="background:#7f1d1d;color:#fca5a5;border:none;padding:.3rem .6rem;font-size:.7rem;cursor:pointer;font-family:'Cinzel',serif">🗑️ Del</button>`:'';
+      return`<div class="wish-card"><div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:.5rem"><div><div class="wish-author">${data.name}</div><div class="wish-time">${ts}</div></div>${del}</div><div class="wish-text">${data.tip}</div></div>`;
+    }).join('');
+  });
+}
+
+async function deleteTip(id){
+  if(!isAdminMode)return;
+  if(!confirm('Delete this wish?'))return;
+  try{await db.collection('tips').doc(id).delete()}catch(e){alert('Error: '+e.message)}
+}
+
+function toggleAdminMode(){
+  const p=prompt('Enter admin password:');
+  if(p==='beven-anju-2026'){isAdminMode=true;alert('✅ Admin mode enabled.');loadTips();}
+  else if(p!==null)alert('❌ Incorrect password.');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Splash — Choose Your Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;600&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
+body { font-family: sans-serif; background: #0a0a0a; }
+
+#picker {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0f0f0f;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2rem; padding: 2rem;
+}
+#picker h1 {
+  font-family: 'Cinzel', serif;
+  color: #d4af72;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 1100px;
+}
+@media (max-width: 768px) { .theme-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 500px) { .theme-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.theme-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.2s;
+}
+.theme-card:hover { border-color: #d4af72; transform: translateY(-2px); }
+
+.theme-preview {
+  height: 130px;
+  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 1.2rem;
+}
+
+.theme-label {
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.theme-label h3 { color: #fff; font-size: 0.8rem; font-family: 'Cinzel', serif; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+.theme-label p { color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 0.05em; }
+
+/* PLACECARD STYLES */
+.pv { 
+  position:relative; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  flex-direction:column;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.pv1 { background:#0D0B09; }
+.pv1-name { font-family:'Great Vibes',cursive; font-size:clamp(1.4rem, 3vw, 2.2rem); color:#E8D5A8; text-shadow:0 0 20px rgba(201,169,110,0.4); line-height:1; }
+.pv1-sub { font-family:'Cinzel',serif; font-size:clamp(0.35rem, 1vw, 0.45rem); letter-spacing:0.25em; color:#C9A96E; text-transform:uppercase; margin-top:4px; }
+
+.pv2 { background: linear-gradient(160deg, #FAF6F0, #EDE0CF); }
+.pv2-name { font-family:'Playfair Display',serif; font-size:clamp(1.2rem, 2.5vw, 1.9rem); color:#3d2512; font-style:italic; line-height:1.1; }
+.pv2-sub { font-family:'Cinzel',serif; font-size:clamp(0.32rem, 0.9vw, 0.42rem); letter-spacing:0.2em; color:#9a6f3d; text-transform:uppercase; margin-top:4px; }
+.pv2-ring { width:clamp(28px, 5vw, 36px); height:clamp(28px, 5vw, 36px); border-radius:50%; border:1px solid rgba(154,111,61,0.3); display:flex; align-items:center; justify-content:center; margin-bottom:6px; background:rgba(255,255,255,0.5); }
+.pv2-ring span { font-family:'Cormorant Garamond',serif; font-size:clamp(0.7rem, 1.5vw, 0.9rem); color:#9a6f3d; font-style:italic; }
+
+.pv3 { background: linear-gradient(135deg, #0F1923, #1a2535); }
+.pv3-name { font-family:'DM Serif Display',serif; font-size:clamp(1.3rem, 2.7vw, 2rem); color:#fff; line-height:1; }
+.pv3-name .i { font-style:italic; }
+.pv3-badge { font-family:'Cinzel',serif; font-size:clamp(0.32rem, 0.9vw, 0.4rem); letter-spacing:0.2em; color:rgba(140,180,255,0.6); border:1px solid rgba(140,180,255,0.2); padding:2px 8px; border-radius:100px; margin-bottom:6px; }
+
+.pv4 { background: #F5F0EB; overflow:hidden; }
+.pv4-dot1 { position:absolute; width:clamp(50px, 8vw, 70px); height:clamp(50px, 8vw, 70px); background:#FF6B6B; border-radius:50%; top:-20px; right:-10px; mix-blend-mode:multiply; opacity:0.65; }
+.pv4-dot2 { position:absolute; width:clamp(40px, 6vw, 55px); height:clamp(40px, 6vw, 55px); background:#FFD93D; border-radius:50%; bottom:-15px; left:-10px; mix-blend-mode:multiply; opacity:0.65; }
+.pv4-name { font-family:'Syne',sans-serif; font-size:clamp(1.3rem, 2.8vw, 2rem); font-weight:800; color:#1a1410; line-height:0.9; letter-spacing:-0.03em; position:relative; z-index:1; }
+.pv4-sub { font-family:'Syne',sans-serif; font-size:clamp(0.32rem, 0.9vw, 0.45rem); font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(26,20,16,0.4); position:relative; z-index:1; margin-top:5px; }
+
+/* Themes 5-17 inline styles */
+</style>
+</head>
+<body>
+
+<div id="picker">
+    <h1>Wedding Splash — Choose Your Theme</h1>
+    <div class="theme-grid" id="themeGrid"></div>
+</div>
+
+<script>
+const themes = [
+  { id: 'arabian', label: 'Arabian', desc: 'Luxury · Geometric · Gold', file: 'full-arabian.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #0c0c0a 0%, #1a1510 100%); color: #F0D060; font-family: \'Great Vibes\', cursive; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'artdeco', label: 'Art Deco', desc: 'Vintage · Geometric · Bold', file: 'full-art-deco.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #1a1410 0%, #2a2416 100%); color: #e8d5a8; font-family: \'Playfair Display\', serif; font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: 0.08em;">BEVEN<br>& ANJU</div>' },
+  { id: 'bohemian', label: 'Bohemian', desc: 'Artistic · Eclectic · Colorful', file: 'full-bohemian.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #2d1b2e 0%, #3d2b3e 100%); color: #ff96c8; font-family: \'Great Vibes\', cursive; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'celestial', label: 'Celestial', desc: 'Romantic · Cosmic · Blue', file: 'full-celestial.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #0f1923 0%, #1a2535 100%); color: #64b4ff; font-family: \'Instrument Serif\', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'champagne', label: 'Champagne Vellum', desc: 'Light · Elegant · Minimal', file: 'full-champagne-vellum.html', preview: '<div class="pv" style="background: linear-gradient(160deg, #faf6f0 0%, #f0e8dc 100%); color: #7a4f28; font-family: \'Great Vibes\', cursive; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'chinoiserie', label: 'Chinoiserie', desc: 'Classical · Asian · Ornate', file: 'full-chinoiserie.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #0d0d0a 0%, #1a1815 100%); color: #d4af72; font-family: \'Playfair Display\', serif; font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: 0.08em;">BEVEN<br>& ANJU</div>' },
+  { id: 'ivoryg', label: 'Ivory & Gold', desc: 'Classic · Romantic · Traditional', file: 'full-ivory-gold.html', preview: '<div class="pv" style="background: linear-gradient(160deg, #faf6f0 0%, #f2e9dd 100%); color: #7a4f28; font-family: \'Great Vibes\', cursive; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'japanese', label: 'Japanese Garden', desc: 'Zen · Natural · Minimal', file: 'full-japanese-garden.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #f5f0eb 0%, #ede5d8 100%); color: #648c50; font-family: \'Instrument Serif\', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'latina', label: 'Latina', desc: 'Vibrant · Cultural · Bold', file: 'full-latina.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #1a0f15 0%, #3a1f25 100%); color: #dc6496; font-family: \'Great Vibes\', cursive; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' },
+  { id: 'mughal', label: 'Mughal', desc: 'Ornate · Indian · Regal', file: 'full-mughal.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #1a1218 0%, #2a1a28 100%); color: #c8a0b4; font-family: \'Playfair Display\', serif; font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: 0.08em;">BEVEN<br>& ANJU</div>' },
+  { id: 'oldmoney', label: 'Old Money', desc: 'Luxury · Refined · Classic', file: 'full-old-money.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #1a1410 0%, #2a1a10 100%); color: #b48c64; font-family: \'Playfair Display\', serif; font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: 0.08em;">BEVEN<br>& ANJU</div>' },
+  { id: 'peacock', label: 'Peacock Royal', desc: 'Jewel Tones · Regal · Luxury', file: 'full-peacock-royal.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2a 100%); color: #64c8dc; font-family: \'Playfair Display\', serif; font-size: clamp(1rem, 2.2vw, 1.5rem); font-weight: 700; letter-spacing: 0.08em;">BEVEN<br>& ANJU</div>' },
+  { id: 'sage', label: 'Sage', desc: 'Natural · Calming · Green', file: 'full-sage.html', preview: '<div class="pv" style="background: linear-gradient(135deg, #f5f8f5 0%, #eef3ee 100%); color: #788c78; font-family: \'Instrument Serif\', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.8rem);">Beven<br>& Anju</div>' }
+];
+
+const grid = document.getElementById('themeGrid');
+themes.forEach(theme => {
+  const card = document.createElement('div');
+  card.className = 'theme-card';
+  card.onclick = () => window.location.href = theme.file;
+  card.innerHTML = `
+    <div class="theme-preview">${theme.preview}</div>
+    <div class="theme-label">
+      <h3>${theme.label}</h3>
+      <p>${theme.desc}</p>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
