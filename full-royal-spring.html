@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beven & Anju · Spring Royal Wedding</title>
+<!-- Beautiful elegant fonts for a royal spring feel -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── SPRING ROYAL THEME TOKENS ── */
+:root {
+  --gold: #C5A059;
+  --gold-lt: #E4C686;
+  --gold-dk: #9E7D3F;
+  --blush: #FDF3F5;
+  --blush-dk: #E8D5D8;
+  --ivory: #FCFAF8;
+  --white: #FFFFFF;
+  --text-main: #4A4440;
+  --text-muted: #8A817A;
+  --border-light: rgba(197, 160, 89, 0.2);
+  --border-med: rgba(197, 160, 89, 0.4);
+  --shadow: 0 8px 24px rgba(74, 68, 64, 0.06);
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--ivory);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .serif-text { font-family: 'Playfair Display', serif; }
+.script-text { font-family: 'Great Vibes', cursive; }
+
+/* ══════════════════════════════════════
+   CUSTOM MODAL (Replaces Alerts)
+══════════════════════════════════════ */
+#customModal {
+  display: none; position: fixed; inset: 0; z-index: 100000;
+  background: rgba(252, 250, 248, 0.85); backdrop-filter: blur(5px);
+  align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-box {
+  background: var(--white); border: 1px solid var(--border-med);
+  border-radius: 16px; padding: 2.5rem 2rem; max-width: 400px; width: 90%;
+  text-align: center; box-shadow: 0 15px 40px rgba(197, 160, 89, 0.15);
+  transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-title { font-family: 'Playfair Display', serif; color: var(--gold-dk); font-size: 1.4rem; margin-bottom: 0.8rem; }
+.modal-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+.modal-input-wrap { margin-bottom: 1.5rem; display: none; }
+.modal-input {
+  width: 100%; padding: 0.8rem; border: 1px solid var(--border-light); border-radius: 8px;
+  font-family: 'Montserrat', sans-serif; color: var(--text-main); background: var(--ivory);
+}
+.modal-input:focus { outline: none; border-color: var(--gold); }
+.modal-btns { display: flex; gap: 1rem; justify-content: center; }
+
+/* ══════════════════════════════════════
+   SPLASH SCREEN
+══════════════════════════════════════ */
+#splash {
+  position: fixed; inset: 0; z-index: 9999; 
+  background: radial-gradient(circle at center, #FFFFFF 0%, var(--blush) 100%);
+  display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer;
+}
+
+/* Elegant Borders */
+.s-frame {
+  position: absolute; pointer-events: none;
+  border-radius: 20px;
+}
+.s-f1 {
+  inset: clamp(15px, 3vw, 30px); border: 1px solid var(--gold);
+  animation: fadeIn 1.5s ease 0.2s both; opacity: 0.7;
+}
+.s-f2 {
+  inset: clamp(25px, 5vw, 50px); border: 1px solid var(--border-med);
+  animation: fadeIn 1.5s ease 0.4s both;
+}
+
+/* Corner Florals (SVG Backgrounds) */
+.s-corner {
+  position: absolute; width: clamp(80px, 15vw, 150px); height: clamp(80px, 15vw, 150px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M10,0 C10,40 40,90 90,90' fill='none' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M20,0 C20,30 30,70 80,80' fill='none' stroke='%23C5A059' stroke-width='1'/%3E%3Ccircle cx='10' cy='10' r='2' fill='%23E4C686'/%3E%3Ccircle cx='30' cy='30' r='1.5' fill='%23C5A059'/%3E%3Ccircle cx='60' cy='50' r='1' fill='%23E4C686'/%3E%3Cpath d='M0,40 Q20,30 30,10 Q10,20 0,40' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M40,0 Q30,20 10,30 Q20,10 40,0' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-size: contain;
+  pointer-events: none; animation: fadeIn 1.2s ease 0.6s both; opacity: 0.8;
+}
+.s-corner.tl { top: clamp(15px, 3vw, 30px); left: clamp(15px, 3vw, 30px); }
+.s-corner.tr { top: clamp(15px, 3vw, 30px); right: clamp(15px, 3vw, 30px); transform: scaleX(-1); }
+.s-corner.bl { bottom: clamp(15px, 3vw, 30px); left: clamp(15px, 3vw, 30px); transform: scaleY(-1); }
+.s-corner.br { bottom: clamp(15px, 3vw, 30px); right: clamp(15px, 3vw, 30px); transform: scale(-1); }
+
+/* Splash Content */
+.s-center {
+  position: relative; z-index: 10; text-align: center; display: flex; flex-direction: column; 
+  align-items: center; padding: 0 clamp(1rem, 5vw, 4rem);
+}
+.s-eyebrow {
+  font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  letter-spacing: 0.4em; color: var(--gold-dk); text-transform: uppercase;
+  animation: riseIn 1s ease 0.5s both; margin-bottom: 1rem;
+}
+.s-names {
+  font-family: 'Great Vibes', cursive; font-size: clamp(4.5rem, 12vw, 8rem);
+  color: var(--gold-dk); line-height: 0.9; font-weight: 400;
+  animation: grandReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+  text-shadow: 2px 4px 15px rgba(197, 160, 89, 0.15);
+  margin: 1rem 0;
+}
+.s-names span { display: block; }
+.s-amp {
+  font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--gold-lt); font-style: italic; margin: -0.2em 0;
+}
+.s-date {
+  font-family: 'Montserrat', sans-serif; font-weight: 400; font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+  color: var(--text-main); letter-spacing: 0.25em; text-transform: uppercase;
+  animation: riseIn 1s ease 1.2s both; margin-top: 1.5rem;
+}
+.s-loc {
+  font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--text-muted); font-style: italic;
+  animation: riseIn 1s ease 1.4s both; margin-top: 0.5rem;
+}
+.s-hash {
+  font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: 0.85rem;
+  color: var(--gold); letter-spacing: 0.1em;
+  animation: riseIn 1s ease 1.6s both; margin-top: 1.5rem;
+}
+
+/* Floral Divider */
+.s-divider {
+  width: min(200px, 50vw); height: 20px; margin: 1.5rem auto;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10'%3E%3Cpath d='M0,5 Q25,5 50,5 T100,5' fill='none' stroke='%23C5A059' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='5' r='2' fill='%23C5A059'/%3E%3Cpath d='M45,5 Q50,0 55,5 Q50,10 45,5' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: center;
+  animation: riseIn 1s ease 1.1s both;
+}
+
+.s-btn-wrap {
+  animation: riseIn 1s ease 2s both; margin-top: 2.5rem; display: flex; gap: 1rem; 
+  align-items: center; justify-content: center; flex-wrap: wrap;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold-dk)); color: var(--white);
+  border: none; padding: 1rem 2.5rem; border-radius: 30px; font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px); box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+}
+.btn-outline {
+  background: transparent; color: var(--gold-dk); border: 1px solid var(--gold);
+  padding: 0.95rem 2rem; border-radius: 30px; font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-outline:hover { background: var(--blush); }
+
+.s-skip {
+  position: absolute; bottom: 2rem; right: 2rem; font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);
+  border: none; background: none; cursor: pointer; transition: color 0.3s;
+}
+.s-skip:hover { color: var(--gold-dk); }
+
+/* ══════════════════════════════════════
+   APP — HEADER & TABS
+══════════════════════════════════════ */
+#app { display: none; min-height: 100vh; background: var(--ivory); }
+
+.app-header {
+  background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 40;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+.header-inner { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem 1rem; text-align: center; }
+.header-title {
+  font-family: 'Great Vibes', cursive; font-size: clamp(2rem, 5vw, 2.5rem);
+  color: var(--gold-dk); line-height: 1; margin-bottom: 0.3rem;
+}
+.header-subtitle {
+  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; color: var(--text-muted);
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+
+.tabs {
+  display: flex; justify-content: center; gap: 0.5rem; padding: 0.8rem 1rem;
+  overflow-x: auto; flex-wrap: wrap; background: var(--white);
+  border-top: 1px dashed var(--border-light);
+}
+.tab-btn {
+  padding: 0.6rem 1.2rem; border-radius: 30px; border: 1px solid transparent;
+  font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.tab-btn.active {
+  background: var(--blush); color: var(--gold-dk); border-color: var(--border-med);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+.tab-btn.inactive { background: transparent; color: var(--text-muted); border-color: transparent; }
+.tab-btn.inactive:hover { background: var(--ivory); color: var(--gold); }
+
+/* ══════════════════════════════════════
+   APP — CONTENT
+══════════════════════════════════════ */
+.content { max-width: 56rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+.tab-content { display: none; animation: fadeIn 0.4s ease; }
+.tab-content.active { display: block; }
+
+/* Cards */
+.card {
+  background: var(--white); border: 1px solid var(--border-light); border-radius: 16px;
+  padding: 1.8rem; margin-bottom: 1.2rem; box-shadow: var(--shadow); position: relative;
+}
+.card-time { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold-dk); margin-bottom: 0.2rem;}
+.card h3 { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--text-main); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.card-loc { color: var(--text-muted); font-size: 0.9rem; font-style: italic; font-family: 'Playfair Display', serif;}
+.card-detail { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; }
+
+/* Hero */
+.hero-card {
+  background: linear-gradient(to bottom right, var(--white), var(--blush));
+  border: 1px solid var(--border-med); border-radius: 20px;
+  padding: 3rem 2rem; margin-bottom: 2.5rem; text-align: center;
+  box-shadow: 0 10px 30px rgba(197, 160, 89, 0.1); position: relative; overflow: hidden;
+}
+.hero-floral {
+  position: absolute; inset: 0; opacity: 0.4; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100,20 Q120,50 100,80 Q80,50 100,20' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M180,100 Q150,120 120,100 Q150,80 180,100' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M100,180 Q80,150 100,120 Q120,150 100,180' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M20,100 Q50,80 80,100 Q50,120 20,100' fill='%23FDF3F5' stroke='%23C5A059' stroke-width='0.5'/%3E%3Ccircle cx='100' cy='100' r='10' fill='%23E4C686'/%3E%3C/svg%3E");
+  background-position: center; background-repeat: no-repeat; background-size: 150%;
+}
+.hero-names { font-family: 'Great Vibes', cursive; font-size: clamp(3rem, 8vw, 4.5rem); color: var(--gold-dk); line-height: 1.1; position: relative; z-index: 1;}
+.hero-tagline { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--text-main); font-style: italic; margin-top: 0.5rem; position: relative; z-index: 1;}
+.hero-date { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-dk); margin-top: 1.5rem; position: relative; z-index: 1;}
+
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold-dk); font-style: italic;
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; justify-content: center;
+}
+.section-title::before, .section-title::after {
+  content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--border-med), transparent); max-width: 100px;
+}
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 2.5rem; }
+@media(max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+.info-block {
+  background: var(--white); border: 1px solid var(--border-light); border-radius: 12px;
+  padding: 1.5rem; box-shadow: var(--shadow); border-top: 3px solid var(--gold-lt); text-align: center;
+}
+.info-block h4 { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--gold-dk); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.8rem; }
+.info-block p { color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
+.big-time { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-dk); margin-bottom: 0.5rem;}
+
+/* Inputs & Forms */
+.form-label { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--text-main); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.form-input, .form-textarea {
+  width: 100%; padding: 0.9rem 1.2rem; background: var(--white); border: 1px solid var(--border-light);
+  border-radius: 8px; color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 0.95rem; margin-bottom: 1.2rem;
+  transition: border-color 0.3s;
+}
+.form-input:focus, .form-textarea:focus { outline: none; border-color: var(--gold); }
+.form-textarea { min-height: 100px; resize: vertical; }
+
+.search-box { background: var(--blush); border: 1px solid var(--border-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; text-align: center; }
+.guest-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; background: var(--white); border: 1px solid var(--border-light); border-radius: 8px; padding: 1rem 1.2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+.guest-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text-main); }
+.table-badge { padding: 0.4rem 1rem; background: var(--blush-dk); color: var(--text-main); border: none; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+.table-badge:hover { background: var(--gold-lt); color: var(--white); }
+
+/* Photo Grid */
+.upload-label {
+  display: inline-block; cursor: pointer; padding: 1rem 2.5rem; border-radius: 30px;
+  background: var(--white); color: var(--gold-dk); border: 1px solid var(--gold);
+  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; transition: all 0.3s; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.15);
+}
+.upload-label:hover { background: var(--blush); }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.photo-item { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 1; border: 2px solid var(--white); }
+.photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.photo-item:hover img { transform: scale(1.05); }
+
+/* Gifts */
+.gift-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; }
+.gift-tab-btn { padding: 0.6rem 1.5rem; font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s; background: transparent; color: var(--text-muted); }
+.gift-tab-btn.active { background: var(--gold-lt); color: var(--white); box-shadow: 0 4px 10px rgba(197, 160, 89, 0.3); }
+
+.quick-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.2rem; }
+.quick-btn { padding: 0.8rem; border-radius: 8px; background: var(--white); border: 1px solid var(--border-light); color: var(--text-main); font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+.quick-btn:hover, .quick-btn.selected { border-color: var(--gold); background: var(--blush); color: var(--gold-dk); }
+
+.registry-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+.reg-card { background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; overflow: hidden; transition: all 0.3s; box-shadow: var(--shadow); }
+.reg-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(197, 160, 89, 0.2); border-color: var(--gold-lt); }
+.reg-card img { width: 100%; height: 180px; object-fit: cover; background: var(--ivory); }
+.reg-card-body { padding: 1.2rem; text-align: center; }
+.reg-card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text-main); margin-bottom: 0.5rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 2.6rem; }
+.reg-card-rating { font-family: 'Montserrat', sans-serif; font-size: 0.75rem; color: var(--gold-dk); margin-bottom: 0.5rem; }
+.reg-card-price { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1.1rem; color: var(--text-main); margin-bottom: 1rem; }
+.reg-card-btn { width: 100%; padding: 0.8rem; border-radius: 30px; background: var(--blush); color: var(--gold-dk); border: 1px solid var(--gold-lt); font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: block; transition: all 0.3s; }
+.reg-card-btn:hover { background: var(--gold-lt); color: var(--white); }
+
+/* Tips & Wishes */
+.wish-card { background: var(--white); border: 1px solid var(--border-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow); position: relative; }
+.wish-card::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--blush-dk); position: absolute; top: -10px; left: 15px; opacity: 0.5; }
+.wish-author { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold-dk); font-style: italic; }
+.wish-time { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.wish-text { color: var(--text-main); line-height: 1.6; margin-top: 0.8rem; font-size: 0.95rem; position: relative; z-index: 1; }
+
+.security-note { background: var(--blush); border-radius: 8px; padding: 1rem; margin-top: 1rem; text-align: center; }
+.security-note p { font-size: 0.8rem; color: var(--text-muted); margin: 0; }
+
+.admin-btn-wrap { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9000; }
+.admin-btn { background: var(--white); color: var(--text-muted); border: 1px solid var(--border-light); border-radius: 30px; padding: 0.5rem 1rem; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+/* Animations */
+.fade-out { animation: splashOut 1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes splashOut { to { opacity: 0; transform: scale(1.05); visibility: hidden; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes grandReveal { from { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(5px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ CUSTOM MODAL ══════════════════════ -->
+<div id="customModal">
+  <div class="modal-box">
+    <h3 class="modal-title" id="modalTitle">Message</h3>
+    <p class="modal-text" id="modalText"></p>
+    <div class="modal-input-wrap" id="modalInputWrap">
+      <input type="password" class="modal-input" id="modalInput" placeholder="Password...">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-outline" id="modalCancelBtn" style="display:none; padding: 0.6rem 1.5rem;">Cancel</button>
+      <button class="btn-primary" id="modalOkBtn" style="padding: 0.6rem 2rem;">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SPLASH ══════════════════════ -->
+<div id="splash" onclick="enterApp()">
+  <canvas id="glCanvas" style="position:absolute; inset:0; pointer-events:none; z-index:1"></canvas>
+  
+  <div class="s-frame s-f1"></div>
+  <div class="s-frame s-f2"></div>
+  
+  <div class="s-corner tl"></div>
+  <div class="s-corner tr"></div>
+  <div class="s-corner bl"></div>
+  <div class="s-corner br"></div>
+
+  <div class="s-center">
+    <p class="s-eyebrow">Together with their families</p>
+    <div class="s-divider"></div>
+    
+    <div class="s-names">
+      <span>Beven</span>
+      <span class="s-amp">&amp;</span>
+      <span>Anju</span>
+    </div>
+    
+    <div class="s-divider"></div>
+    <p class="s-date">Saturday · April 18, 2026</p>
+    <p class="s-loc">Frisco &amp; Plano, Texas</p>
+    <p class="s-hash">#bevgotthejuice</p>
+    
+    <div class="s-btn-wrap">
+      <button onclick="enterApp(); event.stopPropagation()" class="btn-primary">Open Your Guide</button>
+    </div>
+  </div>
+  <button onclick="enterApp(); event.stopPropagation()" class="s-skip">Skip Intro</button>
+
+  <script>
+  // Spring Canvas Animation (Falling Blossoms/Petals)
+  const c = document.getElementById('glCanvas'), ctx = c.getContext('2d');
+  c.width = window.innerWidth; c.height = window.innerHeight;
+  const petals = [];
+  const colors = ['rgba(253, 243, 245,', 'rgba(255, 255, 255,', 'rgba(228, 198, 134,', 'rgba(232, 213, 216,'];
+  
+  function spawnPetal() {
+    petals.push({
+      x: Math.random() * c.width, y: -20,
+      w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+      rot: Math.random() * 360, rotV: (Math.random() - 0.5) * 2,
+      vx: (Math.random() - 0.5) * 1, vy: 0.5 + Math.random() * 1.5,
+      alpha: 0.4 + Math.random() * 0.5,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  
+  for(let i=0; i<30; i++) {
+    petals.push({
+      x: Math.random() * c.width, y: Math.random() * c.height,
+      w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+      rot: Math.random() * 360, rotV: (Math.random() - 0.5) * 2,
+      vx: (Math.random() - 0.5) * 1, vy: 0.5 + Math.random() * 1.5,
+      alpha: 0.4 + Math.random() * 0.5,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  
+  (function tick() {
+    ctx.clearRect(0,0,c.width,c.height);
+    if(Math.random() < 0.05) spawnPetal();
+    if(petals.length > 70) petals.shift();
+    
+    petals.forEach(p => {
+      p.x += p.vx + Math.sin(Date.now() * 0.001 + p.y * 0.01) * 0.5;
+      p.y += p.vy;
+      p.rot += p.rotV;
+      if(p.y > c.height + 20) { p.y = -20; p.x = Math.random() * c.width; }
+      
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.beginPath();
+      ctx.moveTo(0, -p.h/2);
+      ctx.bezierCurveTo(p.w/2, -p.h/2, p.w/2, p.h/2, 0, p.h/2);
+      ctx.bezierCurveTo(-p.w/2, p.h/2, -p.w/2, -p.h/2, 0, -p.h/2);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.fill();
+      ctx.restore();
+    });
+    requestAnimationFrame(tick);
+  })();
+  </script>
+</div>
+
+<!-- ══════════════════════ APP ══════════════════════ -->
+<div id="app">
+  <div class="app-header">
+    <div class="header-inner">
+      <div class="header-title">Beven &amp; Anju</div>
+      <div class="header-subtitle">Saturday, April 18, 2026</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'welcome')">Welcome</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'schedule')">Schedule</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'ceremony')">Ceremony</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'seating')">Seating</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'photos')">Photos</button>
+      <button class="tab-btn inactive" onclick="openGiftsTab();switchTab(event,'gifts')">Gifts</button>
+      <button class="tab-btn inactive" onclick="switchTab(event,'tips')">Wishes</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- WELCOME -->
+    <div id="welcome" class="tab-content active">
+      <div class="hero-card">
+        <div class="hero-floral"></div>
+        <div class="hero-names">Beven &amp; Anju</div>
+        <div class="hero-tagline">are getting married!</div>
+        <div class="hero-date">Saturday · April 18, 2026</div>
+      </div>
+      <div class="section-title">Ceremony</div>
+      <div class="info-grid">
+        <div class="info-block">
+          <h4>Location</h4>
+          <p class="serif-text">St. Francis of Assisi Catholic Church<br>8000 Eldorado Pkwy, Frisco TX</p>
+        </div>
+        <div class="info-block">
+          <h4>Time</h4>
+          <p class="big-time">1:30 PM</p>
+          <p style="font-size:0.8rem; color:var(--text-muted); font-style:italic; margin-top:0.3rem">Please arrive 20–30 min early</p>
+        </div>
+      </div>
+      <div class="section-title">Reception</div>
+      <div class="info-grid">
+        <div class="info-block">
+          <h4>Location</h4>
+          <p class="serif-text">Dallas/Plano Marriott at Legacy Town Center<br>7121 Bishop Rd, Plano TX 75024</p>
+        </div>
+        <div class="info-block">
+          <h4>Timeline</h4>
+          <p>Cocktail Hour: 5:00 PM<br>Dinner: 8:00 PM<br>Dancing: 10:00 PM</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEDULE -->
+    <div id="schedule" class="tab-content">
+      <div class="section-title">Wedding Day Schedule</div>
+      <div class="card">
+        <div class="card-time">1:30 PM</div>
+        <h3>Ceremony Begins</h3>
+        <div class="card-loc">St. Francis of Assisi Catholic Church · Frisco TX</div>
+        <div class="card-detail">Please arrive 20–30 minutes early</div>
+      </div>
+      <div class="card"><div class="card-time">3:30 PM</div><h3>Ceremony Ends</h3></div>
+      <div class="card"><div class="card-time">5:00 PM</div><h3>Cocktail Hour Opens</h3><div class="card-loc">Marriott at Legacy Town Center · Plano TX</div></div>
+      <div class="card"><div class="card-time">6:00 PM</div><h3>Bar Opens</h3></div>
+      <div class="card"><div class="card-time">7:15 PM</div><h3>Reception Grand Entrance</h3></div>
+      <div class="card"><div class="card-time">8:00 PM</div><h3>Dinner Served</h3></div>
+      <div class="card"><div class="card-time">10:00 PM</div><h3>Dance Floor Opens</h3></div>
+      <div class="card"><div class="card-time">12:00 AM</div><h3>Reception Ends</h3></div>
+    </div>
+
+    <!-- CEREMONY -->
+    <div id="ceremony" class="tab-content">
+      <div class="section-title">Ceremony Guide</div>
+      <div class="card" style="text-align:center; padding:3rem 2rem;">
+        <h3 style="font-size:1.1rem; margin-bottom:1rem; color:var(--gold-dk)">Complete Ceremony Service Book</h3>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:2rem; font-style:italic">Full liturgical texts &amp; Syro-Malankara traditions explained</p>
+        <a href="BryLin_Wedding_Service_Book.pdf" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block;">Open Service Book (PDF)</a>
+      </div>
+    </div>
+
+    <!-- SEATING -->
+    <div id="seating" class="tab-content">
+      <div class="section-title">Reception Seating</div>
+      <div class="search-box">
+        <label class="form-label">Find Your Table</label>
+        <input type="text" id="searchInput" class="form-input" placeholder="Type your name..." oninput="filterSeating()" style="max-width: 400px; margin: 0 auto 0.5rem auto;">
+      </div>
+      <div id="seatingResults"></div>
+    </div>
+
+    <!-- PHOTOS -->
+    <div id="photos" class="tab-content">
+      <div class="section-title">Share Memories</div>
+      <div class="card" style="text-align:center; padding:2.5rem 1rem">
+        <label for="photoInput" class="upload-label">Select Photo to Upload</label>
+        <input type="file" id="photoInput" accept="image/*" style="display:none">
+        <p id="uploadStatus" style="color:var(--gold-dk); margin-top:1rem; font-style:italic; font-size:0.9rem; font-weight:500;"></p>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:1rem; font-style:italic">Tag photos on Instagram with <strong style="color:var(--gold-dk)">#bevgotthejuice</strong></p>
+      </div>
+      <div class="section-title" style="margin-top:2.5rem">Live Photo Feed</div>
+      <div class="photo-grid" id="photoGallery">
+        <p style="grid-column:1/-1; text-align:center; color:var(--text-muted); font-style:italic; padding:3rem">Photos will appear here as guests upload them.</p>
+      </div>
+    </div>
+
+    <!-- GIFTS -->
+    <div id="gifts" class="tab-content">
+      <div class="section-title">Gifts &amp; Registry</div>
+      <div class="gift-tabs">
+        <button onclick="switchGiftTab('registry')" id="registryTabBtn" class="gift-tab-btn active">Registry</button>
+        <button onclick="switchGiftTab('cash')" id="cashTabBtn" class="gift-tab-btn">Cash Gift</button>
+      </div>
+
+      <div id="giftRegistry">
+        <div class="registry-grid" id="registryFeed">
+          <div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted)">
+            <div style="display:inline-block; width:24px; height:24px; border:2px solid var(--border-light); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin-right:0.5rem; vertical-align:middle"></div>
+            Loading registry items...
+          </div>
+        </div>
+      </div>
+
+      <div id="giftCash" style="display:none">
+        <div class="card">
+          <p style="color:var(--text-muted); margin-bottom:1.5rem; text-align:center; font-style:italic">Give a cash gift directly or via Venmo <strong style="color:var(--gold-dk)">@beven_anju</strong></p>
+          <label class="form-label">Quick Select Amount</label>
+          <div class="quick-btns">
+            <button onclick="setGiftAmount(50,this)" class="quick-btn">$50</button>
+            <button onclick="setGiftAmount(100,this)" class="quick-btn">$100</button>
+            <button onclick="setGiftAmount(150,this)" class="quick-btn">$150</button>
+            <button onclick="setGiftAmount(250,this)" class="quick-btn">$250</button>
+          </div>
+          <label class="form-label">Gift Amount</label>
+          <div style="position:relative; margin-bottom:1.2rem">
+            <span style="position:absolute; left:1.2rem; top:50%; transform:translateY(-50%); color:var(--gold-dk); font-weight:600;">$</span>
+            <input type="number" id="giftAmount" class="form-input" placeholder="0.00" style="padding-left:2.2rem; margin-bottom:0">
+          </div>
+          <label class="form-label">Your Name</label>
+          <input type="text" id="giftGuestName" class="form-input" placeholder="John Doe">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="giftGuestEmail" class="form-input" placeholder="john@example.com">
+          <label class="form-label">Message (Optional)</label>
+          <textarea id="giftMessage" class="form-textarea" placeholder="Best wishes for your marriage..."></textarea>
+          <button onclick="submitGiftIntent()" class="btn-primary" style="width:100%">Proceed to Payment</button>
+          <div class="security-note"><p>Secure payment coming soon. Please use Venmo @beven_anju or contact the couple directly.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS / WISHES -->
+    <div id="tips" class="tab-content">
+      <div class="section-title">Wish The Couple</div>
+      <div class="card">
+        <label class="form-label">Your Wish or Blessing</label>
+        <textarea id="tipInput" class="form-textarea" placeholder="Share your marriage wisdom or beautiful wishes..."></textarea>
+        <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1.2rem">
+          <input type="checkbox" id="nameCheckbox" style="width:18px; height:18px; accent-color:var(--gold)">
+          <label for="nameCheckbox" style="color:var(--text-main); font-size:0.9rem; cursor:pointer; font-weight:500;">Share my name</label>
+        </div>
+        <div id="nameFieldContainer" style="display:none; margin-bottom:1.2rem">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="nameInput" class="form-input" placeholder="Your name...">
+        </div>
+        <button onclick="submitTip()" class="btn-primary" style="width:100%">Submit Wish</button>
+        <p id="tipStatus" style="color:var(--gold-dk); text-align:center; margin-top:1rem; font-style:italic; font-size:0.9rem; font-weight:500;"></p>
+      </div>
+      <div class="section-title" style="margin-top:2.5rem">Live Wishes Feed</div>
+      <div id="tipsContainer">
+        <p style="text-align:center; color:var(--text-muted); font-style:italic; padding:2rem">Beautiful wishes will appear here.</p>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<div class="admin-btn-wrap" style="display:none" id="adminWrap">
+  <button onclick="toggleAdminMode()" class="admin-btn">Admin Login</button>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+/* ── CUSTOM MODAL SYSTEM ── */
+let currentModalCallback = null;
+function showModal(title, text, type = 'alert', callback = null) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('modalInputWrap').style.display = type === 'prompt' ? 'block' : 'none';
+  document.getElementById('modalInput').value = '';
+  document.getElementById('modalCancelBtn').style.display = (type === 'confirm' || type === 'prompt') ? 'block' : 'none';
+  
+  currentModalCallback = callback;
+  const modal = document.getElementById('customModal');
+  modal.style.display = 'flex';
+  setTimeout(() => modal.style.opacity = '1', 10);
+  
+  if(type === 'prompt') document.getElementById('modalInput').focus();
+}
+function closeModal() {
+  const modal = document.getElementById('customModal');
+  modal.style.opacity = '0';
+  setTimeout(() => modal.style.display = 'none', 300);
+}
+document.getElementById('modalCancelBtn').onclick = () => { closeModal(); if(currentModalCallback) currentModalCallback(null); };
+document.getElementById('modalOkBtn').onclick = () => {
+  const val = document.getElementById('modalInput').value;
+  closeModal(); 
+  if(currentModalCallback) currentModalCallback(val !== '' ? val : true);
+};
+
+/* ── SPLASH ── */
+let splashDone = false;
+function enterApp() {
+  if(splashDone) return; splashDone = true;
+  document.getElementById('splash').classList.add('fade-out');
+  setTimeout(() => {
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('adminWrap').style.display = 'block';
+    initFirebase();
+  }, 1000);
+}
+setTimeout(enterApp, 8000); // Auto enter after 8s
+
+/* ── TABS ── */
+function switchTab(e, tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => { el.classList.remove('active'); el.classList.add('inactive') });
+  document.getElementById(tab).classList.add('active');
+  e.target.classList.add('active'); e.target.classList.remove('inactive');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── GIFT TABS ── */
+function switchGiftTab(type) {
+  const reg = document.getElementById('giftRegistry'), cash = document.getElementById('giftCash');
+  const rBtn = document.getElementById('registryTabBtn'), cBtn = document.getElementById('cashTabBtn');
+  if(type === 'registry') {
+    reg.style.display = 'block'; cash.style.display = 'none';
+    rBtn.classList.add('active'); cBtn.classList.remove('active');
+    loadRegistryFeed();
+  } else {
+    reg.style.display = 'none'; cash.style.display = 'block';
+    cBtn.classList.add('active'); rBtn.classList.remove('active');
+  }
+}
+function openGiftsTab() { switchGiftTab('cash'); }
+
+async function loadRegistryFeed() {
+  const el = document.getElementById('registryFeed');
+  try {
+    const r = await fetch('https://wedding-registry-api-124ee74e2ff7.herokuapp.com/api/registry/amazon/beven-anju');
+    if(!r.ok) throw new Error();
+    const items = await r.json();
+    if(!items || !items.length) { el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);font-style:italic">All gifts purchased! Thank you.</div>'; return; }
+    el.innerHTML = items.map(i => `<div class="reg-card"><img src="${i.image}" alt="${i.title}" onerror="this.src='https://via.placeholder.com/220x180?text=No+Image'"><div class="reg-card-body"><div class="reg-card-title">${i.title}</div><div class="reg-card-rating">⭐ ${i.rating} (${i.reviews} reviews)</div><div class="reg-card-price">$${i.price.toFixed(2)}</div><a href="${i.affiliateLink}" target="_blank" class="reg-card-btn">Buy this gift</a></div></div>`).join('');
+  } catch(e) { el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)">Registry loading... please refresh.</div>'; }
+}
+setInterval(() => { const g = document.getElementById('gifts'); if(g && g.classList.contains('active') && document.getElementById('giftRegistry').style.display !== 'none') loadRegistryFeed(); }, 300000);
+
+function setGiftAmount(amt, btn) {
+  document.getElementById('giftAmount').value = amt;
+  document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function submitGiftIntent() {
+  const amt = document.getElementById('giftAmount').value;
+  const name = document.getElementById('giftGuestName').value;
+  const email = document.getElementById('giftGuestEmail').value;
+  if(!amt || !name || !email) { showModal('Missing Info', 'Please fill in all required fields.'); return; }
+  if(parseFloat(amt) < 1) { showModal('Invalid Amount', 'Please enter at least $1.'); return; }
+  
+  showModal('Thank You!', `Thank you ${name}! Your gift of $${parseFloat(amt).toFixed(2)} has been noted. Please use Venmo @beven_anju for payment.`);
+  
+  document.getElementById('giftAmount').value = '';
+  document.getElementById('giftGuestName').value = '';
+  document.getElementById('giftGuestEmail').value = '';
+  document.getElementById('giftMessage').value = '';
+  document.querySelectorAll('.quick-btn').forEach(b => b.classList.remove('selected'));
+}
+
+/* ── SEATING ── */
+const seatingData=[{table:1,guests:['Bryan Chempanal','Allen John','Sara Relton','Noel Mathews','Akhil Abraham','Jim Reeves','Ashish Mathai','Joshua George','Bindu George','Olivia George','Justin George','Michelle George','Luka George','Liam George','Terry Sajan','Caren Punnoose','Angel Abraham','Noble Mathew','Jordan Sam']},{table:2,guests:['Abin Alex','Leema Kalayil','Mevin Chacko','Ashley Mathew','Ashna Manthuruthil','Rino Muringothu','Vini Kuzhippil','Jibin Kuzhippil','Regina Mathew','Jason Luke','Mikki Mendoza','Miguel Mendoza','Nibiya Abraham','Roshan Thomas','Sneha Daniel','Britney Nadakuzhackal','Deepa Surendran','Rachel Vulk','Raichel Franklin','Marissa Varghese']},{table:3,guests:['Viji Chempanal','Elizabeth Chempanal','Jose George','Letha George','Lally Boban','Boban Oonunny','Mariamma Sam','Oomen Sam','Giby Vinod','Daniel Rajagiriyal','Chinnamma Rajagiriyal']},{table:4,guests:['Jithin Johnson','Eliza Johnson','Shobin Mathew','Sara Mathew','Madi Saunders','Jalen Saunders','Cole Cassandra','Cassandra Cole','Josh Sara','Sarah Granado']},{table:5,guests:['Laly Joyes','Joyes George','Dona Jose','Lijin Joyes','Chacko Jacob','Leelamma Jacob','Kavya Vinod','Shinto George','Kevin Mathews','Donna Mathews']},{table:6,guests:['K.A Jacob','Susy Jacob','Sanjay Kuriakose','Shiney Kuriakose','Kurian Kuriakose','Aleyamma Kuriakose','Philip Kurian','Mariamma Philip','K.C Thomas','Ammini Thomas']},{table:7,guests:['Bincent Jacob','Nisha Jacob','Bincy Joy','Tony Joy','Blessy Mathew','Vinai Mathew','Mia Mathew','Swadeep Rachoor','Naveetha Reddy','Arjun Reddy']},{table:8,guests:['Ani Malikarukayil','Gigi Jacob','Muthu Malikarukayil','Jinu George','James Padiyara','Jessy Padiyara','Jacob Kochumaliyil','Molly Jacob','Korah Kuriakose','Betty Korah']},{table:9,guests:['Kuriakose Cherian','Elsa Kuriakose','Shanta Devasia','Devasia Thankachen','Molly James','James Kavalam','Sabu Markose']},{table:10,guests:['Shiju Abraham','Elcy Abraham','Lalu Thomas','Ancy Thomas','Rishma Mathew','Mathew Zachariah','Sherley Vulk','Tels Abraham','Saumya Abraham','Rittu Punnoose','Subiya Punnoose']},{table:11,guests:['James Mathew','Grace Mathew','Roy Mathew','Bini Mathew','Roy George','Leena Roy','AM Georgekutty','Molly Georgekutty','AV Philipose','Jainamma Philipose']},{table:12,guests:['Manjesh Chacko','Stephy Chacko','Shinu Punnoose','Romy Punnoose','Jerry Padiyara','Vinaya Padiyara','Vinil Abraham','Joice Abraham','Vinod Chacko','Christy Chacko']},{table:13,guests:['Tina Abraham','Ance Aickareth','Tim Aickareth','Bejoy Devasia','Asha Devasia','Vinu Kavalam','Nisha Kavalam','Nancy Rajan','Roby Rajan','Ebby Rajagiriyal','Lina Rajagiriyal']},{table:14,guests:['Samuel Varghese','Saramma Varghese','Jose James','Sherly James','Jancy Wilson','Wilson Wilson','Renni Abraham','Nisha Abraham','James Uthuppan','Biya James']},{table:15,guests:['Shebin Philip','Soumya Shebin','Daniel Shebin','Angel Shebin','David Shebin','Olivia Thomas','Christian Thomas','Alyssa Thomas','Suja Raju','Raju Raju']},{table:16,guests:['Shaji Parathaodathil','Raymol Parathaodathil','Fr. Saju Joseph','Fr. Abraham Thomas','Rv. Fr. Abey Abraham','Jubil Abraham','Rv. Fr. Joseph Kurian','Annie Kurian','Chacko Itty','Annamma Itty']},{table:17,guests:['Vijay Kuruvilla','Solly Kuruvilla','Ivana George','Jovana George','Kemuel George','Reagan Phillip','Millie Mathew','Nathan Philip','Daniel Philip','Mia Philip']},{table:18,guests:['Saji Alex','Lissy Alex','Alexander Kuriakose','Mariamma Kuriakose','Abraham Scaria','Molly Abraham','Moncy Pulichammootil','Jessy Abraham','Joshi Joseph','Jessy Joshi','Asin Joshi']},{table:19,guests:['Steven Jacob','Simon Jacob','Tim Sam','Rachel Sam','Betsy Mangaleth','Jacob Mangaleth','Nicole Sam','Titus Sam','Jason George','Benji Boban','Betsy Boban']},{table:20,guests:['Alex Kuriakose','Chithra Kuriakose','Aaron Kuriakose','Claire Kuriakose','Azalea Kuriakose','Emily Kuriakose','Preji Kuriakose','Julia Kuriakose','Lily Kuriakose','Biju Thomas','Jilu Thomas']},{table:21,guests:['Josiah Boban','Jeremiah Boban','Leah Boban','Henry Sam','Elijah Jacob','Jonah Jacob','Ava Jacob','Anisha Saju','Sunny Johnson','Betty Boban','Ashley Sam']},{table:22,guests:['Thomas George','Betty Thomas','Benny Punnoose','Reni Punnoose','Bency Punnoose','Rinu Punnoose','Saji Abraham','Lissy Abraham','Monachen Kunnirickal','Annie Thomas']},{table:23,guests:['Chris Jose','Joanna Gnanayutham','Troy Philip','Basil Regi','Joel Sabu','Jasdev Singh','Joshua Skariah','Roshan Varughese','Isabel Ajit','Jonathan Mathai']},{table:24,guests:['Benny Thomas','Anu Thomas','Luke Varghese','Anie Varghese','Alex Jacob','Ruth Jacob','Suresh Kannantanathu','Sisy Thomas']},{table:25,guests:['Cyril Jose','Sybil Jose','Mindy Joseph','Jason Joseph','Josh Mathew','Jenny Mathew','Justin Mathew','Mereena Mathew','Denny Philip','Reshma Philip','Jason Mathew']},{table:26,guests:['Aju Mathew','Priya Aju','Tony Abraham','Deepa Abraham','Thommachan Kallamannil','Susan Thomas','Rittu Scaria','Minna Scaria','Ginu Uthuppan','Anju Zachariah']},{table:27,guests:['Shawn Kuriakose','Maya Kuriakose','Roman Kuriakose','Sheba Razi','Ramin Razi','Cyrus Razi','Lilly Razi','Penelope Razi','Glenn George']},{table:28,guests:['Ajo Vazhackal','Tinu Vazhackal','Iza Vazhackal','Eileen Vazhackal','Robin Kochethu','Renjini Kochethu','Shelly Shaji','Nimisha Shelly','Jibin James','Sherin James']},{table:29,guests:['Sheryl Cleveland','Hannah Varghese','Steven Mathew','Emily Mathew','Jerin Jacob','Brian Kurien','Kenny Thomas','Chris Thomas','Akhil Mathews']},{table:30,guests:['Shibu John','Valsamma John','Saji Kattuvelil','Omana Kattuvelil','Shaji Vazhackal','Sherly Vazhackal','Christina John','Thomas Mathew','Shannon Valimattathil','Jerrin Valimattathil','Priya Kattuvelil']},{table:31,guests:['James George','Stanley George','Smitha Stanley','Thomas George','Daisy Thomas','Jacob Varghese','Kunjumol Jacob','Varghese KV','Sheela Chacko']},{table:32,guests:['Tiby Punnoose','Meena Punnoose','Beena Mathews','Leena Roy Piravom','Sabu Abraham','Achammakutty Abraham','Sajan Abraham','Dolly Abraham']},{table:33,guests:['Jojy Koshy','Christina Koshy','Ligy Skariah','Soji Skariah','Ricardo Mendiola','Pattie Mandiola','Abey Thomas','Debby Thomas','Sean Hozumi','Jaclyn Hozumi','Bradley Thomas']},{table:34,guests:['Siby Abraham','Molamma Abraham','Sabu Adichira','Sheena Joseph','Kurian Benjamin','Laly Benjamin','Raju Abraham','Valsamma Abraham','Jose Thomas','Alice Thomas']},{table:35,guests:['Oomen George','Mariama George','Thomas Oonnunny','Susan Thomas','Titus Ooonnuny','Mathew Oonnuny','Joseph Varghese','Joy Koshy','Molly Koshy','Roy Thomas','Jessy Thomas']},{table:36,guests:['Steve Abraham','Lino Kalayil','Tommy Philip','Isabella Abraham','Jason Joy','Ashley Kurian','Jerrin Jacob','Minnu Jacob','Justin Abraham','Niki Thomas','Milen Daison']},{table:37,guests:['Aaron Chacko','Joel Abraham','Joshua Joseph','Kichu Mathew','Shanjez Reji','Abel Abraham','Bismi Kurien','Daniel Rajan','Sarah Rajan','Joshua Rajagiriyal','Abigail Rajagiriyal']},{table:38,guests:['Adam Punnoose','Minly Lam','Shilpa Thomas','Cassey John','Shalu Kattuvelil','Tobin Mathew','Jaimie Joy','Stephen Thomas','Christina Abraham','Andrew Abraham','Nathan Punnoose']},{table:39,guests:['Ashley Richards','Justin Richards','Holly Martin','Lee Martin','Heather Shapan','Marty Shapan','Louis Smith','Karina Smith','Cynthia Salinas']},{table:40,guests:['Achsah Thomas','Aliya Thomas','Hanoch Thomas','Silu Joseph','Sify Joseph','Sino Joseph','Danny Moncy','Alyssa Moncy','Janice Joy','Aleena Jacob','Aggie Punnoose']},{table:41,guests:['Lauren Morrow','Nathan G','Erica Glover','Cydne Glover','Sejal Bhandari','Kristen Crites','Wade Rhodes','Hannah Rhodes','Neebs Vincent','James Mwgani','Brittany Mwgani']},{table:42,guests:['Siby Maliyil','Lissy Maliyil','Heby Maliyil','Sinu Maliyil','Biju Maliyil','Reenu Maliyil','Vintu Maliyil','Soji Maliyil','Binu Maliyil','Betsy Maliyil']},{table:43,guests:['Janet Hoffman','J Hoffman','Thomas Huck','Lexi Huck','Chasiti Barnett','Roberta Gallagher','Melva Bazan','Jamela Norwood','Chelsy Oguinn','Raqel']},{table:44,guests:['Aby Mangalathu','Suni Mangalathu','Biju Kurian','Beena Philip','Rony Thomas','Shyla Rony','Sabu Kudakasaril','Sally Kudakasaril','Daison Alummootil','Bindu Daison']},{table:45,guests:['Varghese Mathew','Jolly Mathew','Sam Mathai','Kochumol Mathai','Varghese George','Annamma Zachariah','Suma Philip','Shibu Philip','George Varghese','Subi Philip']},{table:46,guests:['Nimmy Samuel','Jobin Samuel','Stephie Rajan','Chris Rajan','Bevin Chacko','Alka Chacko','Arlen Chacko','Danielle Bahrenburg','Nathan Bahrenburg','Neha Maliyil','Megha Maliyil']},{table:47,guests:['Jacob Chacko','Annie Jacob','Francis George','Jaya George','Joseph Kizhakethil','Sheela Joseph','George Thomas','Sally Thomas','Prince Samuel','Mini Prince','Annamma George']},{table:48,guests:['Winnie Saji','Kichu Kuriakose','Joe Baiju','Tressa Joseph','Maria Joseph','Amy Saji','Minnu Saji','Mini Mukkat','Kunjamma Vazhackal','Daisy Babu','Kiju Manthuruthil']},{table:49,guests:['Roy Chacko','Deepa Chacko','Joby Abraham','Jincy Abraham','Ajith Joseph','Ajo Joseph','Anu Joseph','Alfred Varghese','Anju Alfred','Roy Varghese']},{table:50,guests:['Tomcy Jacob','Maria Tom','Blesson Abraham','Nibin Abraham','Chinju Philip','Libin Biju','Kevin Kuttans Abraham','Sheryl Paul','Katherine Roy','Elma Andrews','Shane Thomas']},{table:51,guests:['Anup Varghese','Juby Kurian','Reji Varghese','Chacko Varkey','Reena Varkey','Jose Oomen','Soney Jose','Prasad Thomas','Sheeba Kuruvila','Thomas George']},{table:52,guests:['Kevin Punnoose','Eleesa Jacob','Arjun Mathew','Jerin Mathew','David Alummoottil','Jane Joy','Christine Jacob','Jasmine Jacob','Susan Ayala','Sergio Ayala','Elias Markose']},{table:53,guests:['Abraham Abraham','Suja Abraham','Biji Kurien','Shubha Kurien','Abraham Mathew','Moni Abraham','Jacob Joseph','Mini Joseph','Philip Chacko','Suma Chacko']},{table:54,guests:['Shawn Thomas','Becky Thomas','Noel Abraham','Leah Abraham','Angela Thomas','Lance Thomas','Allen Luke','Irene Markose','Irin Luke','Pramod Daniel']}];
+
+function filterSeating() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const r = document.getElementById('seatingResults');
+  if(!q) { r.innerHTML = ''; return; }
+  const matches = [];
+  seatingData.forEach(t => t.guests.forEach(g => { if(g.toLowerCase().includes(q)) matches.push({name: g, table: t.table}) }));
+  
+  if(!matches.length) { r.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:2rem;font-style:italic">No guests found with that name.</p>'; return; }
+  
+  let html = matches.map(m => `<div class="guest-row"><span class="guest-name">${m.name}</span><button class="table-badge" onclick="expandTableAndScroll(${m.table})">Table ${m.table}</button></div>`).join('');
+  const tables = [...new Set(matches.map(g => g.table))];
+  
+  html += '<div style="margin-top:1.5rem">';
+  tables.forEach(n => {
+    const t = seatingData.find(t => t.table === n);
+    html += `<div style="background:var(--white); border:1px solid var(--border-light); border-top:3px solid var(--gold-lt); padding:1rem 1.2rem; margin-bottom:0.5rem; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:600; color:var(--text-main); text-transform:uppercase; border-radius:8px" onclick="toggleTableDetails(${n})">Table ${n}<span id="arrow-${n}" style="color:var(--gold-dk)">▼</span></div>`;
+    html += `<div id="details-${n}" style="display:none; background:var(--white); border:1px solid var(--border-light); border-top:none; padding:1.2rem; margin-bottom:0.8rem; border-radius:0 0 8px 8px;">${t.guests.map(g => `<p style="color:var(--text-muted); margin-bottom:0.5rem; font-size:0.95rem; border-bottom:1px solid var(--blush); padding-bottom:0.3rem">${g}</p>`).join('')}</div>`;
+  });
+  html += '</div>';
+  r.innerHTML = html;
+}
+function expandTable(n) { const el = document.getElementById(`details-${n}`); if(el) { el.style.display = el.style.display === 'none' ? 'block' : 'none'; const a = document.getElementById(`arrow-${n}`); if(a) a.textContent = el.style.display === 'none' ? '▼' : '▲'; } }
+function expandTableAndScroll(n) { expandTable(n); setTimeout(() => { const el = document.getElementById(`details-${n}`); if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'}) }, 100); }
+function toggleTableDetails(n) { expandTable(n); }
+
+/* ── FIREBASE ── */
+const firebaseConfig = {apiKey: "AIzaSyBFOtLI1dc8TCucVTTq0FdLqKCkJ2JSrZw", authDomain: "beven-anju-wedding.firebaseapp.com", projectId: "beven-anju-wedding", storageBucket: "beven-anju-wedding.firebasestorage.app", messagingSenderId: "590538162523", appId: "1:590538162523:web:e347bd99224fa5ca8b9a7e"};
+let db, storage, auth;
+function initFirebase() {
+  try {
+    if(typeof firebase !== 'undefined' && firebase.apps.length === 0) {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore(); storage = firebase.storage(); auth = firebase.auth();
+      auth.signInAnonymously().catch(()=>{});
+      loadPhotos(); loadTips();
+      db.collection('photos').orderBy('timestamp','desc').onSnapshot(() => loadPhotos());
+    } else if(typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+      db = firebase.firestore(); storage = firebase.storage(); auth = firebase.auth();
+      loadPhotos(); loadTips();
+    }
+  } catch(e) { setTimeout(initFirebase, 1000); }
+}
+
+/* ── PHOTOS ── */
+document.getElementById('photoInput').addEventListener('change', async function(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const st = document.getElementById('uploadStatus');
+  st.textContent = 'Scanning photo safely...';
+  try {
+    if(!storage) { st.textContent = 'Service not ready. Please try again.'; return; }
+    const reader = new FileReader();
+    reader.onload = async(ev) => {
+      const b64 = ev.target.result.split(',')[1];
+      try {
+        const vr = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBFOtLI1dc8TCucVTTq0FdLqKCkJ2JSrZw`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requests:[{image:{content:b64},features:[{type:'SAFE_SEARCH_DETECTION'}]}]})});
+        const vd = await vr.json();
+        if(vd.responses && vd.responses[0]) {
+          const ss = vd.responses[0].safeSearchAnnotation;
+          if((ss.adult==='LIKELY'||ss.adult==='VERY_LIKELY')||(ss.violence==='LIKELY'||ss.violence==='VERY_LIKELY')||(ss.racy==='LIKELY'||ss.racy==='VERY_LIKELY')) {
+            showModal('Hold On', "This photo doesn't meet our wedding guidelines. Please try another!");
+            st.textContent = ''; document.getElementById('photoInput').value = ''; return;
+          }
+        }
+      } catch(err) { console.log('Vision check skipped', err); }
+      
+      st.textContent = 'Uploading...';
+      const fn = `photos/${Date.now()}_${file.name}`;
+      const task = storage.ref(fn).put(file);
+      task.on('state_changed', snap => st.textContent = `Uploading... ${Math.round(snap.bytesTransferred/snap.totalBytes*100)}%`, err => st.textContent = 'Upload failed: ' + err.message, async() => {
+        const url = await task.snapshot.ref.getDownloadURL();
+        await db.collection('photos').add({url, timestamp: new Date(), fileName: file.name});
+        st.textContent = 'Photo successfully uploaded! ✨';
+        document.getElementById('photoInput').value = '';
+        setTimeout(() => st.textContent = '', 3000);
+      });
+    };
+    reader.readAsDataURL(file);
+  } catch(err) { document.getElementById('uploadStatus').textContent = 'Error: ' + err.message; }
+});
+
+async function loadPhotos() {
+  if(!db) return;
+  try {
+    const snap = await db.collection('photos').orderBy('timestamp','desc').limit(50).get();
+    const el = document.getElementById('photoGallery');
+    if(snap.empty) { el.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-style:italic;padding:3rem">Photos will appear here as guests upload them.</p>'; return; }
+    el.innerHTML = snap.docs.map(d => `<div class="photo-item"><a href="${d.data().url}" target="_blank"><img src="${d.data().url}" alt="Wedding photo" onerror="this.parentElement.parentElement.remove()"></a></div>`).join('');
+  } catch(e) { console.log('Photo load error:', e); }
+}
+
+/* ── TIPS & WISHES ── */
+let isAdminMode = false;
+document.getElementById('nameCheckbox').addEventListener('change', function() { document.getElementById('nameFieldContainer').style.display = this.checked ? 'block' : 'none'; });
+
+function isTextAppropriate(t) { const banned=['fuck','shit','damn','hell','ass','bitch','cunt','cock','slut','whore','prick','dick','fag','motherfucker']; return !banned.some(w => new RegExp('\\b'+w+'\\b','i').test(t)); }
+
+async function submitTip() {
+  const text = document.getElementById('tipInput').value.trim();
+  const showName = document.getElementById('nameCheckbox').checked;
+  const name = document.getElementById('nameInput').value.trim();
+  const st = document.getElementById('tipStatus');
+  
+  if(!text) { showModal('Missing Info', 'Please enter a beautiful wish!'); return; }
+  if(showName && !name) { showModal('Missing Info', 'Please enter your name if you wish to share it!'); return; }
+  if(!isTextAppropriate(text)) { showModal('Family Friendly', 'Please keep it family-friendly! 💕'); return; }
+  
+  st.textContent = 'Submitting...';
+  try {
+    if(!db) { st.textContent = 'Service not ready. Please try again.'; return; }
+    await db.collection('tips').add({tip: text, name: showName ? name : 'Anonymous', timestamp: new Date(), isAnonymous: !showName});
+    st.textContent = 'Wish submitted beautifully! ✨';
+    document.getElementById('tipInput').value = '';
+    document.getElementById('nameInput').value = '';
+    document.getElementById('nameCheckbox').checked = false;
+    document.getElementById('nameFieldContainer').style.display = 'none';
+    setTimeout(() => st.textContent = '', 3000);
+  } catch(e) { st.textContent = 'Error: ' + e.message; }
+}
+
+function loadTips() {
+  if(!db) return;
+  db.collection('tips').orderBy('timestamp','desc').limit(50).onSnapshot(snap => {
+    const el = document.getElementById('tipsContainer');
+    if(snap.empty) { el.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-style:italic;padding:3rem">Beautiful wishes will appear here.</p>'; return; }
+    el.innerHTML = snap.docs.map(d => {
+      const data = d.data();
+      const ts = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleString() : 'Just now';
+      const del = isAdminMode ? `<button onclick="deleteTip('${d.id}')" style="background:#fff;color:#e11d48;border:1px solid #fda4af;border-radius:4px;padding:0.3rem 0.6rem;font-size:0.7rem;cursor:pointer;font-family:'Montserrat',sans-serif">Delete</button>` : '';
+      return `<div class="wish-card"><div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.5rem"><div><div class="wish-author">${data.name}</div><div class="wish-time">${ts}</div></div>${del}</div><div class="wish-text">${data.tip}</div></div>`;
+    }).join('');
+  });
+}
+
+function deleteTip(id) {
+  if(!isAdminMode) return;
+  showModal('Delete Wish', 'Are you sure you want to delete this beautiful wish?', 'confirm', async (res) => {
+    if(res) {
+      try { await db.collection('tips').doc(id).delete(); } catch(e) { showModal('Error', e.message); }
+    }
+  });
+}
+
+function toggleAdminMode() {
+  showModal('Admin Access', 'Enter admin password:', 'prompt', (p) => {
+    if(p === 'beven-anju-2026') { isAdminMode = true; showModal('Success', 'Admin mode enabled.'); loadTips(); }
+    else if(p) { showModal('Access Denied', 'Incorrect password.'); }
+  });
+}
+</script>
+</body>
+</html>
